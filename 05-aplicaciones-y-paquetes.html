@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>APLICACIONES Y PAQUETES</h1>
+<p>Mayormente las aplicaciones que se instalan o desinstalan desde la terminal requieren permisos de administrador, por lo que casi siempre van precedidas del comando <code>sudo</code>.</p>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>apt install</code> paq<br>
+            <code>apt-get</code> paq</td>
+            <td>Instala una aplicación. <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>apt search</code> paq</td>
+            <td>Busca un paquete por su nombre</td>
+        </tr>
+        <tr>
+            <td><code>apt install</code> ruta/paq<code>.deb</code></td>
+            <td>Instala un paquete <code>.deb</code> ya descargado</td>
+        </tr>
+        <tr>
+            <td><code>apt remove</code> paq</td>
+            <td>Elimina los paquetes de una aplicación</td>
+        </tr>
+        <tr>
+            <td><code>apt purge</code> paq</td>
+            <td>Elimina todos los paquetes, configuraciones y archivos de una aplicación</td>
+        </tr>
+        <tr>
+            <td><code>apt update</code> paq</td>
+            <td>Actualiza un paquete o aplicación</td>
+        </tr>
+        <tr>
+            <td><code>apt-cache search</code> paq</td>
+            <td>Busca un paquete y brinda una descripción breve</td>
+        </tr>
+        <tr>
+            <td><code>apt-cache show</code> paq</td>
+            <td>Muestra el contenido de un paquete</td>
+        </tr>
+        <tr>
+            <td><code>apt clean</code></td>
+            <td>Remueve paquetes incompletos</td>
+        </tr>
+        <tr>
+            <td><code>apt autoclean</code></td>
+            <td>Libera espacio en el disco vaciando el caché</td>
+        </tr>
+        <tr>
+            <td><code>apt autoremove</code></td>
+            <td>Remueve paquetes que ya no sean necesarios</td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p id="1"><sup class="nota-al-pie">[1]</sup> <code>apt</code> (<em>advance packaging tool</em>) es el comando para distros basadas en Debian (Ubuntu, Linux Mint); para las basadas en Red Hat (Fedora, CentOS) es <code>yum</code> y para las basadas en Arch (Manjaro) es <code>pacman -s</code> (sin <code>install</code>).</p>
+</blockquote>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Buscar en caché el paquete <code>nsnake</code>.</li>
+        <li>Instalarlo desde consola.</li>
+        <li>Salir y actualizarlo a su versión más reciente.</li>
+        <li>Desinstalarlo.</li>
+        <li>Quitar automáticamente los paquetes que ya no sean necesarios.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="04-procesos.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="06-primeros-scripts.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>PRIMEROS SCRIPTS</h1>
+<p>Ya vimos que con <code>touch</code> y <code>cat</code> podemos crear un archivo con extensión <code>.sh</code> (<em>shell</em>) y escribir código para poder ejecutarlo desde consola. Dado que en Linux las extensiones no importan tanto como el contenido en sí, incluso podríamos dejarlo sin la extensión <code>.sh</code> o hasta podríamos ponerle <code>.jpeg</code> y aún así se podría ejecutar sin problemas. Sin embargo, lo correcto es agregarle siempre la extensión correspondiente.</p>
+
+<p>Para ejecutar un script utilizamos el comando <code>./</code><em><strong>arch</strong></em> o bien <code>bash</code> <em><strong>arch</strong></em>, pero dado que por defecto ningún script recién creado tiene permisos de ejecución, antes necesitamos otorgarle permisos de ejecución al archivo con <code>chmod +x</code> o bien con <code>chmod 755</code> <em><strong>arch</strong></em> (¿recuerdas a qué permisos corresponde?)</p>
+
+<p>Todo código debe comenzar con el encabezado <code>#!/bin/bash</code>. La combinación <code>#!</code> se conoce como <strong>shebang</strong> y <code>/bin/bash</code> es la ruta que le indica al sistema cuál es el intérprete que debe utilizar (en nuestro caso es Bash, pero puede usarse el <em>shebang</em> para otros intérpretes). Es importante que se escriba siempre en la primera línea y sin espacios de por medio.</p>
+
+<p>El código se escribe una sentencia por línea, tal como se haría en la consola. Los comentarios se indican con el signo numeral (<code>#</code>) y abarcan sólo una línea. Hay que remarcar además la importancia de los espacios y las indentaciones.</p>
+
+<pre>
+#!/bin/bash
+
+<em class="comentario"># código a ejecutar</em> 
+</pre>
+
+<blockquote class="nota">
+    <u>NOTA</u>: Cualquier cosa que se pueda ejecutar desde la terminal se puede incluir en un script y viceversa.
+</blockquote>
+
+<p>Teniendo en cuenta esto, una manera de probar que el código funciona es ir ejecutándolo parte por parte desde consola, verificando que cada paso es realizado correctamente.</p>
+
+<h2>Variables</h2>
+<section>
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>var<code>=</code>valor</td>
+                <td>Se declara una variable y se le asigna un valor. Si la variable ya está declarada se le asigna un valor nuevo.<br>
+                ATENCIÓN: Recordar que no debe haber espacios que si el valor tiene más de una palabra debe escribirse entre comillas</td>
+            </tr>
+            <tr>
+                <td>var<code>=</code></td>
+                <td>Se declara una variable pero no se le asigna ningún valor</td>
+            </tr>
+            <tr>
+                <td><code>$</code>var</td>
+                <td>Invoca a una variable</td>
+            </tr>
+            <tr>
+                <td>var<code>=$(</code>com<code>)</code></td>
+                <td>Almacena el resultado de un comando en una variable. Por ejemplo, <code>fecha=$(date)</code> guarda la fecha actual</td>
+            </tr>
+            <tr>
+                <td><code>readonly</code> VAR<code>=</code>valor</td>
+                <td>Crea una variable cuyo valor no se podrá modificar (constante) <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+            </tr>
+            <tr>
+                <td><code>read</code> var1 var2...</td>
+                <td>Lee los datos introducidos por el usuario y los almacena en variables</td>
+            </tr>
+            <tr>
+                <td><code>read -p</code></td>
+                <td>(<em>-prompt</em>) Muestra el prompt en la misma línea</td>
+            </tr>
+            <tr>
+                <td><code>read -s</code></td>
+                <td>(<em>-silent</em>) Oculta los caracteres ingresados (como en una contraseña)</td>
+            </tr>
+            <tr>
+                <td><code>compgen -v</code></td>
+                <td>(<em>-variables</em>) Muestra un listado de todas las variables de entorno</td>
+            </tr>
+            <tr>
+                <td><code>${</code>var<code>,}</code></td>
+                <td>(con una sola coma) Muestra la primera letra del valor de la variable en minúscula <a href="#2" class="nota-al-pie"><sup>[2]</sup></a></td>
+            </tr>
+            <tr>
+                <td><code>${</code>var<code>,,}</code></td>
+                <td>(con dos comas) Muestra el valor de la variable en minúsculas <a href="#2" class="nota-al-pie"><sup>[2]</sup></a></td>
+            </tr>
+            <tr>
+                <td><code>${</code>var<code>^^}</code></td>
+                <td>Muestra el valor de la variable en mayúsculas <a href="#2" class="nota-al-pie"><sup>[2]</sup></a></td>
+            </tr>
+            <tr>
+                <td><code>${#</code>var<code>}</code></td>
+                <td>Muestra la longitud de la variable (cantidad de caracteres)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p id="1"><sup class="nota-al-pie">[1]</sup> En la mayoría de los lenguajes de programación, las constantes se suelen escribir en mayúsculas.</p>
+        <p id="2"><sup class="nota-al-pie">[2]</sup> Estas acciones NO alteran los caracteres almacenados en la variable. Solamente los presentan de esa manera.</p>
+    </blockquote>
+
+    <h3>Extraer el nombre de un archivo con o sin su extensión</h3>
+    <section>
+        <p>Ya vimos que con el comando <code>basename</code> se puede extraer el nombre del archivo con o sin su extensión. Ahora bien, <code>basename</code> es un programa en sí y es externo a Bash, pero de todas maneras podemos integrarlo fácilmente en nuestro código:</p>
+
+<pre>
+<em class="comentario"># Primero definimos una variable con la ruta del archivo</em>
+ruta="/home/usuario/documento.pdf"
+
+<em class="comentario"># Extraer el nombre del archivo con su extensión</em>
+nom_ext=<strong class="resaltar">$(basename</strong> $ruta<strong class="resaltar">)</strong>
+echo $nom_ext       <em class="comentario"># documento.pdf</em>
+
+<em class="comentario"># Extraer únicamente el nombre</em>
+nom=<strong class="resaltar">$(basename</strong> $ruta <strong class="resaltar">.pdf)</strong>
+echo $nom           <em class="comentario"># documento</em>
+</pre>
+
+        <p>El método con <code>basename</code> tiene un par de desventajas, porque no solamente es más lento debido a que requiere ejecutar otro proceso, sino que también debemos conocer de antemano cuál la extensión del archivo.</p>
+
+        <p>Por suerte existen otros métodos llamados <strong>expansión de parámetros</strong> con los que podemos obtener los mismos resultados:</p>
+
+        <table>
+            <thead>
+                <th>Comando</th>
+                <th>Efecto</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>${</code>ruta<code>##*/}</code></td>
+                    <td>Extrae el nombre y la extensión del archivo</td>
+                </tr>
+                <tr>
+                    <td><code>${</code>ruta<code>##*.}</code></td>
+                    <td>Extrae únicamente la extensión del archivo</td>
+                </tr>
+                <tr>
+                    <td><code>${</code>arch<code>%.*}</code></td>
+                    <td>Extrae únicamente el nombre del archivo (<em>arch</em> debe tener tanto el nombre como la extensión)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>El primero le indica a Bash que busque el patrón más largo (<code>##</code>) que termine en una barra (<code>*/</code>) y que lo elimine. Con el segundo es lo mismo, pero terminando en punto en lugar de una barra.</p>
+
+<pre>
+ruta="/home/usuario/documento.pdf"
+
+<em class="comentario"># Nombre y extensión</em>
+nom_ext=<strong class="resaltar">${</strong>ruta<strong class="resaltar">##*/}</strong>
+echo $nom_ext       <em class="comentario"># documento.pdf</em>
+
+<em class="comentario"># Sólo extensión</em>
+ext=<strong class="resaltar">${</strong>ruta<strong class="resaltar">##*.}</strong>
+echo $ext           <em class="comentario"># pdf</em>
+</pre>
+
+        <p>Con el tercero necesitamos un paso extra, ya que no podemos aislar directamente el nombre del archivo sin su extensión. Además debemos tener especial cuidado porque existen algunos archivos con extensión doble, como por ejemplo los archivos <code>.tar.gz</code>; en estos casos debemos repetir el último paso.</p>
+
+<pre>
+ruta1="/home/usuario/documento.pdf"
+
+<em class="comentario"># Primero quitamos la ruta...</em>
+nom_ext=${ruta1##*/}
+<em class="comentario"># ...y luego extraemos sólo el nombre</em>
+nom=<strong class="resaltar">${</strong>nom_ext<strong class="resaltar">%.*}</strong>
+echo $nom           <em class="comentario"># documento</em>
+
+<em class="comentario"># Con archivos con extensión doble, debemos repetir el último paso</em>
+ruta2="/home/usuario/comp.tar.gz"
+arch=<strong class="resaltar">${</strong>ruta2<strong class="resaltar">%.*}</strong>    <em class="comentario"># comp.tar</em>
+nom=<strong class="resaltar">${</strong>arch<strong class="resaltar">%.*}</strong>      <em class="comentario"># comp</em>
+echo $nom           <em class="comentario"># comp</em>
+</pre>
+
+        <p>La desventaja de estos métodos es que requieren más pasos, pero la gran ventaja es que no es necesario saber cuál es la extensión.</p>
+    </section>
+
+    <h3>Exportando variables</h3>
+    <section>
+        <p>Podemos exportar una variable para que pueda ser utilizada por otro script. Esto se realiza primero con la palabra reservada <code>export</code>:</p>
+
+        <h4>script1.sh</h4>
+<pre>
+#!/bin/bash
+
+nom1="Diego"
+nom2="Ernesto"
+nom3="Fernando"
+
+echo "Script 1 => nom1 = $nom1, nom2 = $nom2, nom3 = $nom3"
+<strong class="resaltar">export</strong> nom1 nom2      <em class="comentario"># Exporta únicamente nom1 y nom2</em>
+</pre>
+
+        <p>Y después la importamos en otro archivo con <code>source</code> o el operador de punto (<code>.</code>) más la ruta del archivo:</p>
+
+        <h4>script2.sh</h4>
+<pre>
+#!/bin/bash
+
+<strong class="resaltar">.</strong> ./script1.sh        <em class="comentario"># Es lo mismo que source ./script1.sh</em>
+nom1="Alfredo"        <em class="comentario"># Aquí definimos otras variables pero con los mismos nombres</em>
+nom2="Benicio"
+
+echo "Script 2 => nom1 = $nom1, nom1 = $nom2, nom3 = $nom3"
+</pre>
+
+        <p>Luego, al ejecutar <code>script1.sh</code>:</p>
+
+<pre>
+Script 1 => nom1 = Diego, nom2 = Ernesto, nom3 = Fernando
+</pre>
+
+        <p>Pero al ejecutar <code>script2.sh</code>:</p>
+
+<pre>
+Script 1 => nom1 = Diego, nom2 = Ernesto, nom3 = Fernando
+Script 2 => nom1 = Alfredo, nom2 = Benicio, nom3 = Fernando
+</pre>
+
+        <p>Como verás, <code>script2.sh</code> ha usado nuevamente el comando <code>echo</code> de <code>script1.sh</code>. Esto ocurre porque Bash no simplemente "lee" las variables, sino que <em>copia todo el contenido y lo ejecuta línea por línea en el otro proceso</em>.</p>
+
+        <p>Otra cosa muy importante a tener en cuenta es que <strong>tanto <code>export</code> como <code>source</code> funcionarán únicamente en la sesión actual</strong>.</p>
+    </section>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear un ejecutable que le pida al usuario introducir su nombre y lo almacene en una variable, que guarde en otra variable la fecha de hoy y que imprima el mensaje “<code>¡Hola,</code> <em><strong>[nombre]</strong></em><code>! Hoy es </code><em><strong>[fecha]</strong></em>” mostrando respectivamente esos datos.</li>
+        <li>Crear un ejecutable que le pida al usuario introducir una cadena de texto breve y que la imprima toda en mayúsculas, luego toda en minúsculas y que por último imprima la cantidad de caracteres que contiene.</li>
+        <li>Crear un programa que le pida al usuario su nombre y su contraseña, imprimiendo "<code>¡Hola,</code> <em><strong>[nombre]</strong></em><code>! Ingresa tu contraseña: </code>".</li>
+        <li>Crear primero el archivo <code>imagen.jpg</code> y luego utilizar ambos <code>basename</code> y la expansión de parámetros para mostrar por consola la ruta completa, el nombre del archivo con su extensión, sólo el nombre y sólo la extensión.</li>
+    </ol>
+</section>
+
+<hr>
+
+<h2>Pasando argumentos</h2>
+<section>
+    <p>Los archivos también pueden aceptar argumentos almacenados en variables cuyos nombres son <code>$1</code><strong>,</strong> <code>$2</code><strong>...</strong> <code>$</code><strong>n</strong>. Estas variables almacenan los valores que se introducen <strong>en orden</strong> cuando se ejecuta el programa en la terminal. Por ejemplo, si un programa llamado <code>saludo.sh</code> tiene el siguiente código:</p>
+
+<pre>
+#!/bin/bash
+echo Hola, <strong class="resaltar">$1 $2</strong>, ¿cómo estás?
+</pre>
+
+    <p>Al ejecutarlo desde la consola con el comando <code>./saludo.sh Juan Pérez</code>, siendo <code>Juan</code> el primer argumento que se almacena en <code>$1</code> y <code>Pérez</code> en <code>$2</code>, el programa retornará:</p>
+
+<pre>
+Hola, <strong class="resaltar">Juan Pérez</strong>, ¿cómo estás?
+</pre>
+
+    <p>Existen otras variables especiales que nos brindan información especial:</p>
+
+    <table>
+        <thead>
+            <th>Variable especial</th>
+            <th>Representa</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>$0</code></td>
+                <td>El nombre del archivo que se está ejecutando <a href="#3" class="nota-al-pie"><sup>[3]</sup></a> </td>
+            </tr>
+            <tr>
+                <td><code>$</code>n</td>
+                <td>Accede al parámetro número <em>n</em> (del 1 al 9)</td>
+            </tr>
+            <tr>
+                <td><code>$#</code></td>
+                <td>El número total de argumentos que se pasan al programa</td>
+            </tr>
+            <tr>
+                <td><code>$@</code></td>
+                <td>Todos los argumentos que se pasan al programa</td>
+            </tr>
+            <tr>
+                <td><code>$?</code></td>
+                <td>La salida del último comando ejecutado</td>
+            </tr>
+            <tr>
+                <td><code>$$</code></td>
+                <td>El id del proceso que se está ejecutando (PID)</td>
+            </tr>
+            <tr>
+                <td><code>$!</code></td>
+                <td>El PID del último comando ejecutado</td>
+            </tr>
+            <tr>
+                <td><code>$USER</code></td>
+                <td>El usuario que está ejecutando el script</td>
+            </tr>
+            <tr>
+                <td><code>$HOSTNAME</code></td>
+                <td>El nombre del equipo</td>
+            </tr>
+            <tr>
+                <td><code>$SECONDS</code></td>
+                <td>La cantidad de segundos desde que comenzó la ejecución</td>
+            </tr>
+            <tr>
+                <td><code>$RANDOM</code></td>
+                <td>Devuelve un número aleatorio</td>
+            </tr>
+            <tr>
+                <td><code>$LINENO</code></td>
+                <td>El número de línea actual</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p id="3"><sup class="nota-al-pie">[3]</sup> Por ejemplo, si se abre una terminal y se escribe <code>echo $0</code>, retorna <code>bash</code>.</p>
+    </blockquote>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear un programa que acepte varios argumentos e imprima por consola: "<code>El nombre de este archivo es </code><em><strong>[nombre_archivo]</strong></em><code>, admite</code> <em><strong>[n]</strong></em> <code>argumentos y sus valores actuales son</code> <em><strong>[argumentos]</strong></em>."</li>
+        <li>Crear otro programa que admita 4 argumentos y que muestre solamente el segundo y el tercero.</li>
+        <li>Escribir un programa que muestre "<code>Tu nombre de usuario es </code><em><strong>[usuario]</strong></em><code> y tu ID es</code> <em><strong>[número_al_azar]</strong></em>".</li>
+        <li>Escribir un programa que muestre el nombre del equipo, el PID actual, la cantidad de segundos transcurridos y el número de línea que se está ejecutando.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="05-aplicaciones-y-paquetes.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="07-operaciones-aritmeticas.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

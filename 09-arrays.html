@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>ARRAYS</h1>
+<blockquote class="nota">
+    <u>NOTA</u>: A diferencia de algunos lenguajes de programación, los arrays en Bash pueden contener datos de distintos tipos.
+</blockquote>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>arr<code>=(</code>item1 item2...<code>)</code></td>
+            <td>Crea un array</td>
+        </tr>
+        <tr>
+            <td><code>${</code>arr<code>[</code>n<code>]}</code></td>
+            <td>Accede al elemento de índice <em>n</em> del array <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>${</code>arr<code>[*]}</code></td>
+            <td>Retorna todos los elementos del array</td>
+        </tr>
+        <tr>
+            <td><code>${#</code>arr<code>[@]}</code></td>
+            <td>Retorna el tamaño del array (la cantidad de elementos)</td>
+        </tr>
+        <tr>
+            <td>arr<code>[</code>n<code>]=</code>nuevo</td>
+            <td>Reemplaza el elemento de índice <em>n</em> por uno nuevo</td>
+        </tr>
+        <tr>
+            <td>arr<code>+=(</code>nuevo<code>)</code></td>
+            <td>Agrega un elemento nuevo al final del array</td>
+        </tr>
+        <tr>
+            <td><code>unset</code> arr<code>[</code>n<code>]</code></td>
+            <td>Elimina el elemento de índice <em>n</em> del array</td>
+        </tr>
+        <tr>
+            <td><code>unset</code> arr</td>
+            <td>Borra TODOS los elementos del array, dejándolo vacío</td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p id="1"><sup class="nota-al-pie">[1]</sup> Al igual que en la mayoría de los lenguajes de programación, el primer índice es cero (<code>0</code>).</p>
+</blockquote>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Directamente en la consola, crear un array con al menos 5 nombres de frutas y luego imprimir todos sus elementos y su tamaño.</li>
+        <li>Imprimir el tercer elemento.</li>
+        <li>Reemplazar el segundo elemento por una fruta nueva.</li>
+        <li>Agregar una nueva fruta al final del array.</li>
+        <li>Borrar el cuarto elemento.</li>
+        <li>Crear un nuevo array con al menos 2 elementos de distinto tipo (un número y un string, por ejemplo).</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="08-cadenas-de-texto.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="10-operadores-y-estructuras-condicionales.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

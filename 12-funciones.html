@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>FUNCIONES</h1>
+<section>
+    <p>Las funciones en Bash tienen una sintaxis similar a la de cualquier lenguaje de programación:</p>
+
+<pre>
+<strong class="resaltar">mi_funcion() {</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">}</strong>
+</pre>
+
+    <p>Invocarla es muy fácil: simplemente se escribe el nombre SIN los paréntesis:</p>
+
+<pre>
+<strong class="resaltar">mi_funcion</strong>
+</pre>
+
+    <p>Recuerda que si quieres invocar la función desde consola, primero tienes que especificarlo con el comando <code>source</code> o el comando del punto (<code>.</code>) y el nombre del archivo donde está definida:</p>
+
+<pre>
+<strong class="resaltar">source</strong> mi_archivo.sh
+</pre>
+        
+        <p>Y luego propiamente el nombre de la función:</p>
+
+<pre>
+mi_funcion
+</pre>
+
+    <p>Por supuesto, una función puede aceptar parámetros. Sólo que éstos no se escriben en la definición, sino cuando es invocada desde la terminal o bien dentro del mismo código:</p>
+
+<pre>
+mi_funcion() {
+    echo "Mi nombre es $1 y tengo $2 años."
+}
+
+mi_funcion Fulano 34        <em class="comentario"># Mi nombre es Fulano y tengo 34 años.</em>
+</pre>
+
+    <h2>Manejo de errores</h2>
+    <section>
+        <p>Las funciones también pueden devolver un valor con la palabra clave <code>return</code> y con <code>$?</code> se accede a ese valor. Si el retorno es <code>0</code>, indica que la ejecución fue exitosa; si es otro número, ha ocurrido algún error.</p>
+
+<pre>
+mi_funcion() {
+    <em class="comentario"># código</em>
+    <strong class="resaltar">return 15</strong>
+}
+
+mi_funcion
+echo <strong class="resaltar">$?</strong>       <em class="comentario"># 15 - Ocurrió un error</em>
+</pre>
+
+        <p>Podemos manejar los errores con un condicional <code>if</code>, evaluando si el retorno es distinto de cero. Por ejemplo:</p>
+
+<pre>
+cp lista.txt /home/
+
+<strong class="resaltar">if [[ $? -ne 0 ]]; then</strong>
+    echo "Ha ocurrido un error"
+<strong class="resaltar">fi</strong>
+</pre>
+    </section>
+
+    <h2>Variables globales y locales</h2>
+    <section>
+        <p>Existen dos tipos de variables: <strong>globales</strong> y <strong>locales</strong>. Las variables globales son accesibles desde cualquier parte del código; en cambio las locales sólo son accesibles dentro de la misma función y se especifican con la palabra <code>local</code>.</p>
+
+<pre>
+saludo="Hola, mundo, soy "    <em class="comentario"># Variable global</em>
+
+mi_funcion() {
+    <strong class="resaltar">local</strong> nombre="Pablo"      <em class="comentario"># Variable local</em>
+    echo $saludo $nombre
+}
+
+echo $saludo    <em class="comentario"># Hola, mundo, soy</em>
+echo $nombre    <em class="comentario"># ERROR - No se puede acceder a la variable local $nombre</em>
+</pre>
+    </section>
+</section>
+
+    <section>
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Escribir una función que admita dos parámetros, <code>nombre</code> y <code>apellido</code>, y que imprima el mensaje "<code>¡Bienvenido, </code><em><strong>[nombre] [apellido]</strong></em><code>! Has ejecutado el archivo</code> <em><strong>[nombre_del_archivo]</strong></em> <code>cuyo PID es</code> <em><strong>[PID]</strong></em>". (Pista: revisar el capítulo 6).</li>
+            <li>Escribir una función que admita como parámetro un número entero y que retorne por consola <code>0</code> si es mayor que <code>100</code> o el mismo número si es menor.</li>
+            <li>Escribir una función que admita como parámetros dos números enteros, que los multiplique y que guarde el resultado en una variable local llamada <code>producto</code>. Mostrar el resultado en la terminal.</li>
+        </ol>
+    </section>
+</section>
+
+<footer>
+    <a href="11-estructuras-iterativas.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="13-herramientas-utiles.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>OPERADORES Y ESTRUCTURAS CONDICIONALES</h1>
+<p>Como en todos los lenguajes de programación, los scripts de Bash también cuentan con estructuras condicionales para tomar decisiones. Las condiciones pueden ser:</p>
+
+<table>
+    <thead>
+        <th>Condición</th>
+        <th>Significado</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>a <code>-lt</code> b</td>
+            <td>(<em>-less than</em>) Un número entero es menor que otro: <em>a < b</em></td>
+        </tr>
+        <tr>
+            <td>a <code>-le</code> b</td>
+            <td>(<em>-less or equal to</em>) Un número entero es menor o igual a otro: <em>a <= b</em></td>
+        </tr>
+        <tr>
+            <td>a <code>-gt</code> b</td>
+            <td>(<em>-greater than</em>) Un número entero es mayor que otro: <em>a > b</em></td>
+        </tr>
+        <tr>
+            <td>a <code>-ge</code> b</td>
+            <td>(<em>-greater or equal to</em>) Un número entero es mayor o igual a otro: <em>a >= b</em></td>
+        </tr>
+        <tr>
+            <td>a <code>-eq</code> b</td>
+            <td>(<em>-equal to</em>) Un número entero es igual a otro: <em>a == b</em></td>
+        </tr>
+        <tr>
+            <td>a <code>-ne</code> b</td>
+            <td>(<em>-not equal to</em>) Un número entero NO es igual a otro: <em>a != b</em></td>
+        </tr>
+        <tr>
+            <td>exp1 <code>&&</code> exp2<br>
+            exp1 <code>-a</code> exp2</td>
+            <td>(<em>AND</em>) Si y sólo si ambas expresiones son verdaderas</td>
+        </tr>
+        <tr>
+            <td>exp1 <code>||</code> exp2<br>
+            exp1 <code>-o</code> exp2</td>
+            <td>(<em>OR</em>) Si al menos una expresión es verdadera</td>
+        </tr>
+        <tr>
+            <td><code>!</code> cond</td>
+            <td>(<em>NOT</em>) Si la condición NO se cumple (si es falsa)</td>
+        </tr>
+        <tr>
+            <td><code>-z</code> str</td>
+            <td>(<em>-zero</em>) Si <em>str</em> es una cadena de texto vacía</td>
+        </tr>
+        <tr>
+            <td><code>-n</code> str</td>
+            <td>(<em>-number</em>) Si <em>str</em> NO es una cadena de texto vacía</td>
+        </tr>
+        <tr>
+            <td>str1 <code>==</code> str2</td>
+            <td>Si <em>str1</em> es igual a <em>str2</em></td>
+        </tr>
+        <tr>
+            <td>str1 <code>!=</code> str2</td>
+            <td>Si <em>str1</em> NO es igual a <em>str2</em></td>
+        </tr>
+        <tr>
+            <td>str1 <code><</code> str2</td>
+            <td>Evalúa si <em>str1</em> es alfabéticamente menor que <em>str2</em></td>
+        </tr>
+        <tr>
+            <td>str1 <code>></code> str2</td>
+            <td>Evalúa si <em>str1</em> es alfabéticamente mayor que <em>str2</em></td>
+        </tr>
+        <tr>
+            <td><code>-e</code> arch</td>
+            <td>(<em>-exists</em>) Si un archivo o directorio existe</td>
+        </tr>
+        <tr>
+            <td><code>-s</code> arch</td>
+            <td>Si un archivo o directorio existe y no está vacío</td>
+        </tr>
+        <tr>
+            <td><code>-d</code> arch</td>
+            <td>(<em>-directory</em>) Si es un directorio</td>
+        </tr>
+        <tr>
+            <td><code>-f</code> arch</td>
+            <td>(<em>-file</em>) Si es un archivo</td>
+        </tr>
+        <tr>
+            <td><code>-L</code> arch</td>
+            <td>(<em>-Link</em>) Si es un enlace simbólico (un acceso directo)</td>
+        </tr>
+        <tr>
+            <td><code>-r</code> arch</td>
+            <td>Si tiene permiso de lectura</td>
+        </tr>
+        <tr>
+            <td><code>-w</code> arch</td>
+            <td>Si tiene permiso de escritura</td>
+        </tr>
+        <tr>
+            <td><code>-x</code> arch</td>
+            <td>Si tiene permiso de ejecución</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Operadores de igualdad</h3>
+<p>Cabe hacer un par de aclaraciones sobre los operadores de igualdad y desigualdad. En primer lugar, los operadores <code>==</code> y <code>-eq</code> no son lo mismo: el primero es para comparar texto y el segundo es para comparar números enteros. De manera análoga, <code>!=</code> es para comparar la desigualdad entre cadenas de texto y <code>-ne</code> para enteros.</p>
+
+<h2>Condicional if-else</h2>
+<section>
+    <p>La sintaxis más simple con <code>if</code> es:</p>
+
+<pre>
+<strong class="resaltar">if [</strong> condición <strong class="resaltar">]; then</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">fi</strong>
+</pre>
+
+    <p>O lo que es lo mismo:</p>
+
+<pre>
+<strong class="resaltar">if [[</strong> condición <strong class="resaltar">]]
+then</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">fi</strong>
+</pre>
+
+    <p>Verás que varias veces se emplean corchetes simples (<code>[ ]</code>) o dobles (<code>[[ ]]</code>) indistintamente, pero en realidad no es lo mismo: los simples se usan cuando se trata de números y los dobles cuando se trata de strings:</p>
+<pre>
+if [ 14 -le 75 ]
+if [[ "barril" < "carro" ]]
+</pre>
+
+    <p>Es recomendable utilizar siempre corchetes dobles para evitar errores. Lo que sí es importante es dejar espacios entre los corchetes y la expresión condicional.</p>
+
+    <p>Luego de la condión se escribe <code>; then</code> (o bien <code>then</code> en la línea siguiente) y a continuación el código de cuando se cumple la condición. Finalmente, la expresión <code>fi</code> (<em>if</em> al revés) es la que cierra el bloque.</p>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: En Bash (como en Python) son muy importantes las indentaciones, no solamente por una cuestión de legibilidad.
+    </blockquote>
+
+    <p>La estructura con un único <code>else</code> es la siguiente:</p>
+
+    <pre>
+<strong class="resaltar">if [[</strong> condición <strong class="resaltar">]]; then</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">else</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">fi</strong>
+</pre>
+
+    <p>Como podrás apreciar, <code>else</code> no lleva <code>; then</code> porque es la única alternativa en este caso.</p>
+
+    <p>Por supuesto que también se pueden anidar estructuras, cerrando cada bloque <code>if</code> con su respectivo <code>fi</code>:
+
+<pre>
+if [[ condición_1 ]]; then
+    <strong class="resaltar">if</strong> [[ condición_1_1 ]]; then
+        <em class="comentario"># código</em>
+    <strong class="resaltar">fi</strong>
+...
+fi
+</pre>
+
+    <p>Y si una estructura compleja requiere varios <code>else</code> encadenados, éstos se convierten en <code>elif</code> (<em>else-if</em>), salvo el último:</p>
+
+<pre>
+if [[ condición_1 ]]; then
+    <em class="comentario"># código</em>
+<strong class="resaltar">elif</strong> [[ condición_2 ]]
+    <em class="comentario"># código</em>
+<em class="comentario"># ...</em>
+else
+    <em class="comentario"># código</em>
+fi
+</pre>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: Se pueden tener tantos <code>elif</code> como sean necesarios, pero en la medida en que se cumpla la primera condición, los restantes no se evaluarán.
+    </blockquote>
+
+    <p>Pongamos por ejemplo un programa que le pida al usuario ingresar una temperatura en grados Celsius:</p>
+
+<pre>
+#!/bin/bash
+
+echo "Ingresa una temperatura en ºC: "
+read temp
+
+if [[ $temp -gt 10 ]]; then
+    if [[ $temp -lt 15 ]]; then
+        echo "Está fresco."
+    elif [[ $temp -le 25 ]]; then
+        echo "El clima está agradable."
+    else
+        echo "Hace calor."
+    fi
+else
+    echo "Hace mucho frío."
+fi
+</pre>
+
+    <p>Si la sentencia es simple, se puede escribir en una única línea, finalizando el correspondiente a cada bloque con punto y coma (<code>;</code>):</p>
+
+<pre>
+if [[ condición ]]; then código_if<strong class="resaltar">;</strong> else código_else<strong class="resaltar">;</strong> fi
+</pre>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear un ejecutable que acepte un número entero como argumento e indique por consola:
+            <ol style="list-style-type:lower-alpha;">
+                <li>Si es mayor que 100</li>
+                <li>Si es menor o igual a 100 y mayor que 50</li>
+                <li>Si es menor o igual a 50 y mayor que 10</li>
+                <li>Si es menor o igual a 10 y mayor o igual a 0, y además:
+                    <ol style="list-style-type:lower-roman">
+                        <li>Si es mayor o igual a 0 y menor que 5</li>
+                        <li>Si es mayor o igual a 5 y menor o igual a 10</li>
+                    </ol>
+                </li>
+                <li>Si es negativo</li>
+            </ol>
+        </li>
+        <li>Ejecutarlo con distintos valores para cada caso.</li>
+        <li>Evaluar estos strings:
+            <ul>
+                <li>Si "<code>algebraico</code>" es menor que "<code>algoritmo</code>"</li>
+                <li>Si "<code>archivo</code>" es mayor que "<code>Archivo</code>"</li>
+                <li>Si "<code>Zapallo</code>" es mayor que "<code>albahaca</code>"</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+
+<hr>
+
+<h2>Condicional case</h2>
+<section>
+    <p>El condicional <code>case</code> es análogo al <code>switch</code> en otros lenguajes de programación y su sintaxis es similar:</p>
+
+<pre>
+<strong class="resaltar">case</strong> variable <strong class="resaltar">in</strong>
+    valor_1 <strong class="resaltar">)</strong>
+        código_1<strong class="resaltar">;;</strong>
+    valor_2 <strong class="resaltar">)</strong>
+        código_2<strong class="resaltar">;;</strong>
+    <strong class="resaltar">* )</strong>
+        código_por_defecto<strong class="resaltar">;;</strong>
+<strong class="resaltar">esac</strong>
+</pre>
+
+    <p>También puedes escribir una opción por línea:</p>
+
+<pre>
+<strong class="resaltar">case</strong> variable <strong class="resaltar">in</strong>
+    valor_1<strong class="resaltar">)</strong> código_1...<strong class="resaltar">;;</strong>
+    valor_2<strong class="resaltar">)</strong> código_2...<strong class="resaltar">;;</strong>
+    ...
+    <strong class="resaltar">*)</strong> código_por_defecto...<strong class="resaltar">;;</strong>
+<strong class="resaltar">esac</strong>
+</pre>
+
+    <p>Como se puede apreciar, cada valor que puede adoptar la variable va seguida de <code>)</code> y el código de cada bloque se cierra con doble punto y coma (<code>;;</code>). Al final de todas las opciones se debe definir una por defecto que está indicada con <code>*</code>, y por último la estructura se cierra con <code>esac</code> (<em>case</em> al revés).</p>
+
+    <p>Por ejemplo, pedirle al usuario que ingrese un caracter:</p>
+
+<pre>
+#!/bin/bash
+
+echo "Ingresa un caracter: "
+read char
+
+case $char in
+    [a-z] )
+        echo "Has ingresado una letra minúscula";;
+    [A-Z] )
+        echo "Has ingresado una letra mayúscula";;
+    [0-9] )
+        echo "Has ingresado una cifra";;
+    * )
+        echo "Has ingresado un caracter especial";;
+esac
+</pre>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Escribir un programa que le pida al usuario elegir una opción de un menú de 5 comidas distintas.</li>
+        <li>Escribir otro programa donde el usuario ingrese su nombre e indicar si su inicial está entre la <code>A</code> y la <code>I</code>, o entre la <code>J</code> y la <code>Q</code>, o entre la <code>R</code> y la <code>Z</code>.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="09-arrays.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="11-estructuras-iterativas.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

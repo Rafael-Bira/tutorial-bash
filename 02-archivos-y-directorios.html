@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>ARCHIVOS Y DIRECTORIOS</h1>
+<p>Lo primero que debemos tener siempre presente es que <u><strong>en Linux todo es un archivo</strong></u>, desde las unidades de disco duro y extraíbles hasta los directorios. De hecho, un directorio es un tipo especial de archivo que almacena la dirección en memoria de los archivos y/o subdirectorios que contenga.</p>
+
+<p>Ya vimos que las rutas pueden ser absolutas o relativas: son absolutas cuando comienzan desde el <em>root</em> (<code>/</code>) y pueden ser referenciadas desde cualquier lugar del sistema, y son relativas cuando dependen de la ubicación actual. En las rutas es muy común encontrar un punto (<code>.</code>) o dos puntos seguidos (<code>..</code>): el primero refiere a la ubicación en donde estamos ahora y el segundo se refiere al directorio padre.</p>
+
+<p>Otro punto fundamental es que (a diferencia de otros sistemas operativos tales como Windows, donde la extensión es importante porque le indica al sistema qué tipo de archivo es) Linux simplemente ignora la extensión del archivo y se fija en su contenido para determinar de qué tipo es. De esta forma, a un archivo <code>.jpg</code> se le podría cambiar su extensión a <code>.txt</code> y aún así el sistema Linux lo seguiría tratando como a una imagen.</p>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>whereis</code></td>
+            <td>(<em>where is?</em>) Busca la ubicación de un archivo ejecutable. Si están disponibles, retorna también su fuente y manual</td>
+        </tr>
+        <tr>
+            <td><code>cd</code> ruta</td>
+            <td>(<em>change directory</em>) Cambia a la ruta indicada, sea absoluta o relativa</td>
+        </tr>
+        <tr>
+            <td><code>cd</code></td>
+            <td>Vuelve al directorio de inicio (<em>home</em>)</td>
+        </tr>
+        <tr>
+            <td><code>cd ..</code></td>
+            <td>Sube un nivel en los directorios. <code>../..</code> sube dos niveles, <code>../../..</code> sube tres y así sucesivamente</td>
+        </tr>
+        <tr>
+            <td><code>cd ../</code>dir</td>
+            <td>Sube un nivel y enseguida ingresa a otro subdirectorio</td>
+        </tr>
+        <tr>
+            <td><code>cd -</code></td>
+            <td>Muestra en pantalla el directorio anterior y regresa a él</td>
+        </tr>
+        <tr>
+            <td><code>mkdir</code> dir<br>
+            <code>mkdir</code> dir1 dir2 <code>"</code>dir_nuevo<code>"</code>...</td>
+            <td>(<em>make directory</em>) Crea uno o varios directorios en la ubicación actual <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>mkdir -v</code></td>
+            <td>(<em>-view</em>) Muestra un mensaje sobre el directorio creado</td>
+        </tr>
+        <tr>
+            <td><code>mkdir</code> dir <code>&& cd $_</code></td>
+            <td>Crea un directorio y cambia inmediatamente a él</td>
+        </tr>
+        <tr>
+            <td><code>mkdir</code> dir<code>{</code>01<code>,</code>02<code>,</code>03...<code>}</code></td>
+            <td>Crea directorios con igual nombre y distinto sufijo (<em>dir01</em>, <em>dir02</em>, <em>dir03</em>...)</td>
+        </tr>
+        <tr>
+            <td><code>mkdir</code> dir<code>{</code>A<code>..</code>D<code>}</code></td>
+            <td>(dos puntos) Crea 4 directorios con igual nombre y distinto sufijo: <em>dirA</em>, <em>dirB</em>, <em>dirC</em> y <em>dirD</em></td>
+        </tr>
+        <tr>
+            <td><code>mkdir -p</code> subdir1 subdir2...</td>
+            <td>(<em>-parent</em>) Crea uno o varios subdirectorios</td>
+        </tr>
+        <tr>
+            <td><code>mkdir</code> dir1<code>/</code>dir2<code>/</code>dir3...</td>
+            <td>Crea subdirectorios anidados
+        </td>
+        </tr>
+        <tr>
+            <td><code>touch</code> arch<br>
+            <code>touch</code> arch1 arch2 <code>"</code>arch_nuevo<code>"</code>...</td>
+            <td>Crea uno o varios archivos en la ubicación actual <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>touch</code> arch<code>{</code>01<code>,</code>02<code>,</code>03...<code>}</code></td>
+            <td>Crea archivos con igual nombre y distinto sufijo: <em>arch01</em>, <em>arch02</em>, <em>arch03</em>...</td>
+        </tr>
+        <tr>
+            <td><code>touch</code> arch<code>{</code>A<code>..</code>D<code>}</code></td>
+            <td>(punto punto) Crea 4 archivos con igual nombre y distinto sufijo: <em>archA</em>, <em>archB</em>, <em>archC</em> y <em>archD</em></td>
+        </tr>
+        <tr>
+            <td><code>touch -m</code> arch</td>
+            <td>(<em>-modify</em>) Actualiza la fecha de modificación del archivo a la actual</td>
+        </tr>
+        <tr>
+            <td><code>./</code>arch<br>
+                <code>bash</code> arch</td>
+            <td>Ejecuta un archivo</td>
+        </tr>
+        <tr>
+            <td><code>du -h</code> arch</td>
+            <td>(<em>disc use -human-readable</em>) Muestra el tamaño que ocupa un archivo o directorio</td>
+        </tr>
+        <tr>
+            <td><code>locate</code> arch</td>
+            <td>Busca un archivo según su nombre</td>
+        </tr>
+        <tr>
+            <td><code>file</code> arch</td>
+            <td>Muestra una descripción breve del tipo de archivo
+            </td>
+        </tr>
+        <tr>
+            <td><code>find</code> ruta <code>-name</code> nom <code>-type</code> tipo</td>
+            <td>Busca un archivo o directorio con cierto nombre dentro de un directorio dado. La opción <code>-type</code> especifica el tipo: <code>d</code> para directorios, <code>f</code> para archivos</td>
+        </tr>
+        <tr>
+            <td><code>grep</code> expr arch</td>
+            <td>Busca una expresión determinada en cierto archivo</td>
+        </tr>
+        <tr>
+            <td><code>cp</code> arch_orig arch_nuevo</td>
+            <td>(<em>copy</em>) Copia un archivo y crea uno nuevo</td>
+        </tr>
+        <tr>
+            <td><code>cp</code> arch1 arch2 arch3... ruta</td>
+            <td>Copia el o los archivos y los pega en un directorio dado. <a href="#2" class="nota-al-pie"><sup>[2]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>cp -i</code> arch ruta</td>
+            <td>(<em>-interactive</em>) Copia el archivo y lo pega en un directorio dado, pidiendo confirmación
+        </td>
+        </tr>
+        <tr>
+            <td><code>cp *</code></td>
+            <td>Copia todo el contenido del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>cp -r</code> dir1 dir2... dir_dest</td>
+            <td>(<em>-recursive</em>) Copia el o los directorios y los pega en otro</td>
+        </tr>
+        <tr>
+            <td><code>cp -r</code> dir_orig<code>/.</code> dir_dest</td>
+            <td>Copia <em>solamente el contenido</em> del directorio y lo pega en otro</td>
+        </tr>
+        <tr>
+            <td><code>rmdir</code> dir</td>
+            <td>(<em>remove directory</em>) Borra un directorio <em>sólo si está vacío</em></td>
+        </tr>
+        <tr>
+            <td><code>rmdir -v</code> dir</td>
+            <td>(<em>-verbose</em>) Borra un directorio y muestra un mensaje</td>
+        </tr>
+        <tr>
+            <td><code>rm</code> arch</td>
+            <td>(<em>remove</em>) Borra un archivo del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>rm</code> ruta<code>/</code>arch</td>
+            <td>Borra un archivo de la ruta indicada</td>
+        </tr>
+        <tr>
+            <td><code>rm -r -i</code> arch</td>
+            <td>(<em>-recursive -interactive</em>) Borra el archivo, pidiendo confirmación</td>
+        </tr>
+        <tr>
+            <td><code>rm -r -f</code> dir</td>
+            <td>(<em>-force</em>) Fuerza el borrado del directorio.<br>
+            ATENCIÓN: Debe tenerse muchísimo cuidado con la opción <code>-rf</code> porque no pide confirmación ni arroja error si el directorio no existe.</td>
+        </tr>
+        <tr>
+            <td><code>mv</code> arch1 arch2... ruta</td>
+            <td>(<em>move</em>) Mueve uno o varios archivos desde el directorio actual a otro directorio de destino</td>
+        </tr>
+        <tr>
+            <td><code>mv</code> ruta_orig ruta_dest</td>
+            <td>Mueve un archivo o directorio desde <em>ruta_orig</em> a <em>ruta_dest</em></td>
+        </tr>
+        <tr>
+            <td><code>mv</code> arch nom_nuevo</td>
+            <td>Renombra el archivo o directorio</td>
+        </tr>
+        <tr>
+            <td><code>basename</code> ruta</td>
+            <td>Extrae el nombre de una carpeta o de un archivo con su extensión</td>
+        </tr>
+        <tr>
+            <td><code>basename</code> ruta .ext</td>
+            <td>Extrae el nombre de un archivo SIN su extensión</td>
+        </tr>
+        <tr>
+            <td><code>basename -a *.</code>ext</td>
+            <td>(<em>-all</em>) Muestra todos los archivos del directorio actual que tengan cierta extensión</td>
+        </tr>
+        <tr>
+            <td><code>basename -s .</code>ext <code>-a *.</code>ext</td>
+            <td>(<em>-suffix</em>) Muestra todos los archivos del directorio actual que tengan cierta extensión, SIN su extensión</td>
+        </tr>
+        <tr>
+            <td><code>unzip</code> arch.zip</td>
+            <td>Descomprime un archivo <em>zip</em></td>
+        </tr>
+        <tr>
+            <td><code>zip -r</code> comp.zip arch1 arch2...</td>
+            <td>(<em>-recursive</em>) Comprime archivos y directorios con sus contenidos en uno con extensión <em>zip</em></td>
+        </tr>
+        <tr>
+            <td><code>zip -x</code> comp.zip arch1 arch2 <code>-x</code> arch3</td>
+            <td>(<em>-exclude</em>) Comprime los archivos <em>arch1</em> y <em>arch2</em> y excluye a <em>arch3</em></td>
+        </tr>
+        <tr>
+            <td><code>zip -d</code> comp.zip arch1 arch2...</td>
+            <td>(<em>-delete</em>) Borra archivos y directorios de un archivo <em>zip</em>.<br>
+            ATENCIÓN: NO borra los directorios si NO están vacíos</td>
+        </tr>
+        <tr>
+            <td><code>zip -e</code> comp.zip arch1 arch2...</td>
+            <td>(<em>-encrypt</em>) Comprime varios archivos en un archivo zip, pidiendo una contraseña para descomprimirlo</td>
+        </tr>
+        <tr>
+            <td><code>cat</code> arch</td>
+            <td>(<em>concatenate</em>) Visualiza el contenido de un archivo sin la necesidad de abrir un editor</td>
+        </tr>
+        <tr>
+            <td><code>cat -n</code> arch</td>
+            <td>(<em>-number</em>) Visualiza el contenido de un archivo mostrando los números de línea</td>
+        </tr>
+        <tr>
+            <td><code>cat ></code> arch</td>
+            <td>Crea un archivo nuevo e inmediatamente permite escribir su código</td>
+        </tr>
+        <tr>
+            <td><code>cat</code> arch1 arch2 <code>></code> arch3</td>
+            <td>Concatena dos archivos y lo guarda como un archivo nuevo</td>
+        </tr>
+        <tr>
+            <td><code>tac</code> arch</td>
+            <td>(<em>cat</em> invertido) Muestra el contenido del archivo pero invertido, imprimiendo desde la última línea hasta la primera</td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p id="1"><sup class="nota-al-pie">[1]</sup> Se deben usar comillas si el nombre tiene más de una palabra.</p>
+    <p id="2"><sup class="nota-al-pie">[2]</sup> Si ya existen archivos con el mismo nombre, se sobreescribirán.</p>
+</blockquote>
+
+<h2>Filtros</h2>
+<section>
+    <p>Afortunadamente, la consola cuenta con varios comandos nativos para filtrar el contenido de los archivos:</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>wc -w</code></td>
+                <td>(<em>word count -words</em>) Muestra la cantidad de palabras en el archivo</td>
+            </tr>
+            <tr>
+                <td><code>wc -l</code></td>
+                <td>(<em>-lines</em>) Muestra la cantidad de líneas del archivo</td>
+            </tr>
+            <tr>
+                <td><code>wc -m</code></td>
+                <td>Muestra la cantidad de caracteres en el archivo</td>
+            </tr>
+            <tr>
+                <td><code>head</code> arch</td>
+                <td>Muestra las primeras 10 líneas de un archivo</td>
+            </tr>
+            <tr>
+                <td><code>head -n</code> cant arch</td>
+                <td>Muestra las primeras líneas de un archivo, desde la primera hasta la cantidad indicada</td>
+            </tr>
+            <tr>
+                <td><code>tail</code> arch</td>
+                <td>Muestra las últimas 10 líneas de un archivo</td>
+            </tr>
+            <tr>
+                <td><code>tail -n +</code>cant arch</td>
+                <td>Muestra las últimas líneas de un archivo, desde la cantidad indicada hasta el final</td>
+            </tr>
+            <tr>
+                <td><code>sort</code> arch</td>
+                <td>Ordena alfabéticamente las líneas del archivo</td>
+            </tr>
+            <tr>
+                <td><code>nl</code> arch</td>
+                <td>(<em>number lines</em>) Muestra el archivo con las líneas numeradas</td>
+            </tr>
+            <tr>
+                <td><code>nl -w</code> num arch</td>
+                <td>Muestra el archivo con las líneas numeradas. La opción <code>-w</code> indica la cantidad de espacios de indentación</td>
+            </tr>
+            <tr>
+                <td><code>nl -s</code> str arch</td>
+                <td>Muestra el archivo con las líneas numeradas. La opción <code>-s</code> (<em>-string</em>) señala una cadena de texto que se imprimirá luego del número. Por ejemplo, con <code>-s ' - '</code> se mostrará:<br>
+                <code>1 -<br>
+                2 -<br></code>
+                ...</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<h2>Operadores de redirección</h2>
+<section>
+    <p>Los operadores de redirección permiten enviar la salida de un comando a un archivo, o bien leer desde un archivo como entrada para un comando.</p>
+
+    <table>
+        <thead>
+            <th>Operador</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>com <code>></code> arch</td>
+                <td>Toma la salida del comando y lo guarda en un archivo</td>
+            </tr>
+            <tr>
+                <td>com <code>>></code> arch</td>
+                <td>Añade la salida del comando al final del archivo</td>
+            </tr>
+            <tr>
+                <td>com <code><</code> arch</td>
+                <td>Lee el contenido del archivo y lo utiliza como entrada para el comando</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Operador ></h3>
+    <p>El operador "mayor que" (<code>></code>) envía la salida de un comando a un archivo. Por ejemplo:</p>
+
+<pre>
+ls -1 <strong class="resaltar">></strong> lista.txt     <em class="comentario"># Guarda la lista de archivos y directorios actuales en un archivo de texto</em>
+</pre>
+
+    <h3>Operador >></h3>
+    <p>El operador <code>>></code> agrega la salida del comando al final del archivo, sin borrar el contenido anterior.</p>
+
+<pre>
+echo "Esta es una línea nueva" <strong class="resaltar">>></strong> lista.txt     <em class="comentario"># Agrega una nueva línea al final del archivo de texto</em>
+</pre>
+
+    <h3>Operador <</h3>
+    <p>Al contrario que <code>></code>, el operador "menor que" (<code><</code>) lee el contenido de un archivo para un comando. La diferencia con <code>|</code> radica en que éste conecta dos comandos entre sí, mientras que el operador <code><</code> conecta un archivo directamente a un comando.</p>
+
+<pre>
+wc -m <strong class="resaltar"><</strong> lista.txt     <em class="comentario"># Cuenta la cantidad de caracteres en un archivo de texto</em>
+</pre>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear dos directorios de nombres <code>aulas</code> y <code>primer grado</code> (así con espacio). Ingresar a este último y crear 4 directorios cuyos nombres sean <code>alumno01</code>, <code>alumno02</code>, <code>alumno03</code> y <code>alumno04</code> usando sufijos.</li>
+        <li>Cambiar al directorio <code>aulas</code> y crear un archivo de nombre <code>piso1.txt</code>.</li>
+        <li>Abrir ese archivo con un editor de texto y escribir lo que sigue:
+
+<pre>
+Recepción
+Sala 101
+Sala 102
+Sala 103
+Oficina de Dirección
+</pre>
+
+        </li>
+        <li>Buscar desde consola la expresión <code>Oficina</code>.</li>
+        <li>Copiar el archivo y crear uno nuevo de nombre <code>piso02.txt</code>.</li>
+        <li>En este archivo nuevo, escribir:
+
+<pre>
+Biblioteca
+Sala 201
+Sala 202
+Sala 203
+Sala 204
+</pre>
+
+        </li>
+        <li>Mostrar con <code>file</code> una breve descripción de este archivo.</li>
+        <li>Copiar el archivo y pegarlo en el directorio superior.</li>
+        <li>Renombrar el archivo a <code>piso3.txt</code> y moverlo al directorio <code>primer grado</code>.</li>
+        <li>Sin cambiar de directorio, mover el archivo desde <code>primer grado</code> hacia <code>aulas</code>.</li>
+        <li>Ingresar al directorio <code>aulas</code> y concatenar los archivos <code>piso1.txt</code> y <code>piso2.txt</code> en un nuevo archivo de nombre <code>piso1y2.txt</code>.</li>
+        <li>Borrar este nuevo archivo.</li>
+        <li>Subir un nivel y borrar <code>aulas</code> y <code>primer grado</code> pidiendo confirmación y aceptando todo.</li>
+        <li>Crear un archivo de texto nuevo llamado <code>alumnos.txt</code> cuyo código sea:
+
+<pre>
+Patricia -> Tercer grado
+Úrsula -> Segundo grado
+Federico -> Tercer grado
+Carla -> Primer grado
+Walter -> Primer grado
+Lucio -> Segundo grado
+Graciela -> Tercer grado
+Diana -> Primer grado
+Zoe -> Segundo grado
+Ignacio -> Tercer grado
+Berta -> Primer grado
+Silvio -> Primer grado
+Julieta -> Primer grado
+Matías -> Segundo grado
+Esteban -> Segundo grado
+Osvaldo -> Tercer grado
+Tatiana -> Segundo grado
+Ramón -> Tercer grado
+Horacio -> Tercer grado
+Nancy -> Segundo grado
+Alfredo -> Primer grado
+Vicente -> Primer grado
+Katherine -> Tercer grado
+Yolanda -> Segundo grado
+</pre>
+
+        </li>
+        <li>Imprimir por terminal las primeras 7 líneas del archivo.</li>
+        <li>Imprimir por terminal las últimas 11.</li>
+        <li>Ordenar las líneas alfabéticamente.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="01-comandos-basicos.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="03-permisos-de-acceso.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

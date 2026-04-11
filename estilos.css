@@ -1,0 +1,138 @@
+/* ESTILOS BÁSICOS PARA LEGIBILIDAD */
+body { 
+    font-family: sans-serif; 
+    line-height: 1.6; 
+    padding: 30px; 
+}
+
+th, .note, summary, figcaption, caption {
+    font-style: italic;
+}
+
+code, u {
+    font-weight: bold;
+}
+
+h1, h2 { 
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+h2 { 
+    color: #012a47
+}
+
+h3 {
+    color: #0070c0 
+}
+
+h4 { 
+    color: #00b0f0 
+}
+
+blockquote { 
+    margin: 15px 0; 
+    padding: 10px 20px; 
+    border-left: 5px solid #ccc; 
+}
+
+pre { 
+    font-size: 1.0em;
+    color: #fff;
+    background-color: #292929;
+    padding: 10px; 
+    overflow-x: auto; 
+}
+
+details {
+    background-color:#eee;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+code {
+    color: #1c9618;
+    font-size: 1.0rem; 
+}
+
+.comentario {
+    color: rgb(18, 170, 64);
+}
+
+.nota { 
+    background-color: #ffebb7;
+}
+
+.nota-al-pie {
+    text-decoration: none;
+}
+
+.nota-al-pie, .resaltar {
+    color: #ca9e24;
+}
+
+#ejercicios {
+    background-color: #f2f2f2;
+}
+
+/* --- TABLAS --- */
+table { 
+    border-collapse: collapse;
+    margin: 20px 0; 
+}
+
+th, td { 
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: center; 
+}
+
+th { 
+    background-color: #f2f2f2;
+}
+
+table code {
+    font-weight: bold;
+    color:#223cad;
+}
+
+.col-right-border { 
+    border-right: 2px solid #aaa; 
+}
+
+.row-top-border {
+    border-top: 2px solid #aaa; 
+}
+
+.align-left { 
+    text-align: left; 
+}
+
+.inline-tables {
+    display: inline; 
+    padding-right: 30px;
+}
+
+/* --- FIGURAS --- */
+figure { 
+    justify-items: center; 
+}
+
+img { 
+    display: block; 
+}
+
+/* --- VIDEOS --- */
+video {
+    border: 5px solid #9ed0f1;
+    height: 200px;
+}
+
+/* --- PIE DE PÁGINA --- */
+footer {
+    border-top: 2px solid #272727;
+    display: flex; 
+    gap: 20px;
+}

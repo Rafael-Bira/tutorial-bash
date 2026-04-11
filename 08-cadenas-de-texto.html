@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>CADENAS DE TEXTO (STRINGS)</h1>
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>var<code>="</code>str<code>"</code><br>
+            var<code>='</code>str<code>'</code></td>
+            <td>Crea un string y lo almacena en una variable</td>
+        </tr>
+        <tr>
+            <td>$str3=$str1$str2</td>
+            <td>Concatena dos strings y los guarda en una variable. Nótese que no lleva espacios</td>
+        </tr>
+        <tr>
+            <td><code>${#</code>str<code>}</code></td>
+            <td>Devuelve la longitud del string</td>
+        </tr>
+        <tr>
+            <td><code>${</code>substr<code>:</code>ind<code>:</code>cant<code>}</code></td>
+            <td>Extrae un substring que comienza en el índice <em>ind</em>. El parámetro <em>cant</em> es opcional e indica la cantidad de caracteres que abarca</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>/</code>substr<code>}</code></td>
+            <td>Elimina la <strong>primera</strong> ocurrencia del substring indicado</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>//</code>substr<code>}</code></td>
+            <td>Elimina <strong>todas</strong> las ocurrencias del substring indicado</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>/</code>substr1<code>/</code>substr2<code>}</code></td>
+            <td>Reemplaza el <em>substr1</em> por el <em>substr2</em> (sólo reemplaza a la primera ocurrencia)</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>,}</code></td>
+            <td>(una sola coma) Modifica el primer caracter del string a minúsculas</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>^}</code></td>
+            <td>(un solo acento circunflexo) Modifica el primer caracter del string a mayúsculas</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>,,}</code></td>
+            <td>(dos comas) Modifica todos los caracteres del string a minúsculas</td>
+        </tr>
+        <tr>
+            <td><code>${</code>str<code>^^}</code></td>
+            <td>(dos acentos circunflexos) Modifica todos los caracteres del string a mayúsculas</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Con las cadenas de texto se pueden utilizar tanto las comillas simples (<code>'</code>) como las dobles (<code>"</code>), pero no siempre tienen el mismo efecto:</p>
+
+    <blockquote>
+        <ul>
+            <li><strong>Las comillas simples tratan al contenido de forma literal.</li>
+            <li>Las comillas dobles permiten incluir variables de por medio.</strong></li>
+        </ul>
+    </blockquote>
+
+    <p>Por ejemplo, el comando <code>echo ¡Hola, $usuario!</code> tendrá resultados diferentes si se usa una u otra:</p>
+
+<pre>
+$usuario='José'
+
+echo <strong class="resaltar">'</strong>¡Hola, $usuario!<strong class="resaltar">'</strong>     <em class="comentario"># ¡Hola, $usuario!</em>
+echo <strong class="resaltar">"</strong>¡Hola, $usuario!<strong class="resaltar">"</strong>     <em class="comentario"># ¡Hola, José! </em>
+</pre>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Guardar el siguiente string en una variable y imprimir por consola su longitud: "<code>El elefante y la ballena azul son los mamíferos más grandes.</code>" (incluido el punto).</li>
+        <li>Guardar en otra variable el siguiente texto: "<strong>[espacio]</strong><code>El elefante es el mayor de los terrestres, pero la ballena azul es más grande de todos.</code>"</li>
+        <li>Concatenar ambos textos almacenándolos en una variable nueva e imprimir nuevamente su extensión.</li>
+        <li>Extraer e imprimir por consola el substring <code>mamíferos más grandes</code>.</li>
+        <li>Eliminar sólo la primera ocurrencia de <code>elefante</code>.</li>
+        <li>Reemplazar <code>mamíferos</code> por <code>animales</code>.</li>
+        <li>Eliminar todas las ocurrencias de <code>ballena azul</code>.</li>
+        <li>Crear una variable con el valor <code>serpiente</code> y modificar todas sus letras a mayúsculas.</li>
+        <li>Crear una variable con el valor <code>delfín</code> y convertir su inicial a mayúsculas.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="07-operaciones-aritmeticas.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="09-arrays.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

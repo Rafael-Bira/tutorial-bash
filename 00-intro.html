@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>INTRODUCCIÓN A LA TERMINAL DE LINUX</h1>
+<p>por <strong>Rafael Michelin Salomon</strong></p>
+
+<h2>¡Bienvenidos!</h2>
+
+<p>Antes que nada, quisiera agradecerte por haber elegido este material. Espero que te sea de mucha utilidad, que te guíe y que puedas aprender con facilidad esta herramienta imprescindible hoy en día en el mundo informático. He dividido este tutorial en distintas paǵinas y cada sección cuenta con ejercicios para aplicar lo aprendido. Al final de esta guía encontrarás varios sitios donde poder seguir aprendiendo y de más está decir que te invito a recomendar otros que conozcas para agregarlos en actualizaciones posteriores.</p>
+
+<h2>Prefacio</h2>
+<section>
+    <p>Para la mayoría de los usuarios que estamos habituados a Windows, introducirse en este mundo nuevo puede resultar abrumador. Es muy fácil desorientarse y este sistema de archivos y carpetas es muy diferente. Al principio puede ser muy confuso y admitamos que también resulta difícil "despegarse" de los programas a los que estamos acostumbrados desde siempre. Sin embargo y afortunadamente, cada vez son más las aplicaciones que se lanzan para Windows, Linux y Mac, y aunque persistan algunos problemas de compatibilidad, existen alternativas geniales. Una de las grandes ventajas de este sistema operativo es que no es necesario pagar licencias costosas para tener programas excelentes. La comunidad de Linux es gigantesca y variada y continúa creciendo a una velocidad asombrosa, gracias a la maravilla del código abierto.</p>
+
+    <p>Si bien las interfaces gráficas de las distribuciones han mejorado increíblemente, la terminal de Linux sigue siendo fundamental porque es el cerebro para el buen funcionamiento y el uso cotidiano de este sistema operativo. La más popular es <strong>BASH</strong> (<em>Bourne Again SHell</em>) y en este documento trataremos únicamente sobre ella.</p>
+
+    <p>Una manera rápida de acceder a Bash es con las teclas <strong>Ctrl+Alt+T</strong>, y lo primero que aparecerá será el <em>prompt</em>:</p>
+
+<pre style="font-weight: bold; font-size: 1.0rem;">
+<span style="color: rgb(38, 189, 45)">usuario@computadora</span>:<span style="color: rgb(83, 163, 228)">directorio</span>$
+</pre>
+
+    <p>El primer término que vemos es <span style="color:rgb(38, 189, 45); font-weight: bold;">usuario</span> (que aparece en color verde) e indica justamente quién está operando en la <span style="color:rgb(38, 189, 45); font-weight:bold;">computadora</span> actual (también en verde) y que está situado actualmente en un <span style="color:rgb(83, 163, 228); font-weight: bold;">directorio</span> dado (en azul claro). El signo <code>$</code> indica que el usuario tiene privilegios de uso normal; si el signo es <code>#</code>, se trata del <em>superusuario</em> que tiene control total sobre el sistema.</p>
+    
+    <p>Al iniciar la consola, el directorio suele ser la carpeta personal del usuario, identificada con una virgulilla (<code style="color:rgb(83, 163, 228); font-weight: bold;">~</code>). La carpeta raíz (<em>root</em>) se indica con la barra diagonal (<code>/</code>) y es el directorio de partida de todos los demás subdirectorios. Las rutas de los archivos y carpetas se pueden escribir de dos formas:</p>
+
+    <ul>
+        <li><strong>Ruta absoluta</strong> - Comenzando desde la carpeta raíz. Ejemplo: <code>/home/usuario/miCarpeta/miDocumento.txt</code></li>
+        <li><strong>Ruta relativa</strong> - Comenzando desde la ubicación actual. Ejemplo: si estamos ubicados en el directorio <code>usuario</code>, podemos referirnos al archivo simplemente escribiendo <code>/miCarpeta/miDocumento.txt</code></li>
+    </ul>
+
+    <p>Es importantísimo recordar que <u><strong>Linux distingue entre mayúsculas y minúsculas</strong></u>, por lo tanto no es lo mismo <code>directorio</code> que <code>Directorio</code>. Igual de importante es el manejo de los <em>espacios</em>.</p>
+
+    <p>Una función muy útil de la terminal es la función de la tecla <strong>TAB</strong> que autocompleta lo que se está escribiendo. En la consola de Linux no existen las combinaciones <strong>Ctrl+C</strong> ni <strong>Ctrl+V</strong> para copiar y pegar, pero sí <strong>Ctrl+Shift+C</strong> y <strong>Ctrl+Shift+V</strong>.</p>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: De hecho, <strong>Ctrl+C</strong> es una combinación imprescindible porque detiene el proceso que se está ejecutando actualmente.<br>
+        También debemos tener mucho cuidado con la combinación <strong>Ctrl+S</strong> que comúnmente se emplea en Windows para guardar los cambios, porque en este caso se usa para congelar la pantalla de la consola. Para descongelarla debemos simplemente teclear <strong>Ctrl+Q</strong>, que también sirve para salir de varias aplicaciones (también suelen cerrarse simplemente con la tecla <strong>Q</strong>).<br>
+        Otra combinación que debe usarse con cautela es <strong>Ctrl+Z</strong>, que en Windows se usa para deshacer una acción.
+    </blockquote>
+
+    <p>Cada comando cuenta con ciertas opciones (también llamadas <em>flags</em>, banderas) que siempre van precedidas por un guion (<code>-</code>) y se pueden escribir separadas (<code>ls -l -a</code>) o bien combinadas (<code>ls -la</code>). Cuando la opción es una expresión larga, se utilizan dos guiones: <code>--version</code>.</p>
+</section>
+
+<h2 id="indice">Índice</h2>
+<section>
+    <p>Como mencioné más arriba, los temas están organizados por páginas y aquí tienes un índice para recorrerlas:</p>
+
+    <ol>
+        <li><a href="01-comandos-basicos.html">Comandos básicos</a></li>
+        <li><a href="02-archivos-y-directorios.html">Archivos y directorios</a></li>
+        <li><a href="03-permisos-de-acceso.html">Permisos de acceso</a></li>
+        <li><a href="04-procesos.html">Procesos</a></li>
+        <li><a href="05-aplicaciones-y-paquetes.html">Aplicaciones y paquetes</a></li>
+        <li><a href="06-primeros-scripts.html">Primeros scripts</a></li>
+        <li><a href="07-operaciones-aritmeticas.html">Operaciones aritméticas</a></li>
+        <li><a href="08-cadenas-de-texto.html">Cadenas de texto (strings)</a></li>
+        <li><a href="09-arrays.html">Arrays</a></li>
+        <li><a href="10-operadores-y-estructuras-condicionales.html">Operadores y estructuras condicionales</a></li>
+        <li><a href="11-estructuras-iterativas.html">Estructuras iterativas (bucles)</a></li>
+        <li><a href="12-funciones.html">Funciones</a></li>
+        <li><a href="13-herramientas-utiles.html">Herramientas útiles</a></li>
+        <li><a href="14-bibliografia.html">Bibliografía</a></li>
+    </ol>
+
+    <p>¡Comencemos!</p>
+</section>
+
+<footer>
+    <a href="01-comandos-basicos.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

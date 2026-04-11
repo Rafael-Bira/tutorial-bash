@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>OPERACIONES ARITMÉTICAS</h1>
+
+<blockquote class="nota">
+    <u>NOTA</u>: Es importante tener presente que Bash no soporta valores de números decimales de manera nativa, pero existen alternativas como <strong>awk</strong> (lo veremos más adelante).
+</blockquote>
+
+<table>
+    <thead>
+        <th>Operador</th>
+        <th>Operación</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>+</code></td>
+            <td>Suma</td>
+        </tr>
+        <tr>
+            <td><code>-</code></td>
+            <td>Resta</td>
+        </tr>
+        <tr>
+            <td><code>*</code></td>
+            <td>Multiplicación</td>
+        </tr>
+        <tr>
+            <td><code>/</code></td>
+            <td>División entera (retorna únicamente la parte entera del cociente)</td>
+        </tr>
+        <tr>
+            <td><code>%</code></td>
+            <td>Módulo (retorna únicamente el resto de la división)</td>
+        </tr>
+        <tr>
+            <td><code>**</code></td>
+            <td>Exponenciación</td>
+        </tr>
+        <tr>
+            <td><code>++</code></td>
+            <td>Incremento (aumenta el valor en 1)</td>
+        </tr>
+        <tr>
+            <td><code>--</code></td>
+            <td>Decremento (disminuye el valor en 1)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Todas las operaciones aritméticas se deben escribir con el signo <code>$</code> y la expresión entre paréntesis dobles: <code>$(( </code><em><strong>[expresión]</strong></em><code> ))</code>. Por ejemplo, la suma entre dos variables sería:</p>
+
+<pre>
+suma=<strong class="resaltar">$((</strong> $var1 + $var2 <strong class="resaltar">))</strong>
+</pre>
+
+    <p>También se puede utilizar la palabra reservada <code>expr</code> (<em>expression</em>), que directamente imprime el resultado. Tener presente que debe haber espacios entre los números y los operadores:</p>
+
+<pre>
+<strong class="resaltar">expr</strong> 8 * 6        <em class="comentario"># 48</em>
+</pre>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Escribir un programa que admita dos números enteros y que retorne la suma y la resta entre ellos.</li>
+        <li>Crear un ejecutable que admita dos números enteros y que retorne la multiplicación, la división y el módulo. Con el cociente y el módulo, realizar la operación inversa y verificar que la división es correcta.</li>
+        <li>Crear un ejecutable que admita dos números enteros y que retorne la potencia entre ambos.</li>
+        <li>Crear un programa que le pida un número al usuario y que lo decremente tres veces.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="06-primeros-scripts.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="08-cadenas-de-texto.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

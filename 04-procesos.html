@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>PROCESOS</h1>
+<p>¿A qué se le llama "proceso" en Linux? Un proceso es sencillamente una instancia de un programa que se está ejecutando. Al igual que otros sistemas operativos, Linux es multitarea: esto quiere decir que puede ejecutar varios procesos simultáneamente. Y más aún, al tener un enfoque multiusuario, distintos usuarios podrían estar ejecutando varias instancias de una misma aplicación. Debido a esto, Linux resulta ser muy práctico para que un superusuario pueda decidir y administrar qué procesos se pueden ejecutar y cuáles no. Cada proceso cuenta con un identificador único llamado <strong>PID</strong> (<em>process ID</em>), con el cual se puede finalizar ("matar") mediante el comando <code>kill</code>:</p>
+
+<pre>
+<strong class="resaltar">kill</strong> <em>[PID]</em>
+</pre>
+
+<p>Podemos además ejecutar comandos en segundo plano con el operador <code>&</code>, que al mismo tiempo le asigna un PID y permite retomar el control sobre la terminal:</p>
+
+<pre>
+firefox <strong class="resaltar">&</strong>
+</pre>
+
+<p>Existen varios programas para gestionar los procesos, pero aquí veremos solamente dos: <code>top</code> y <code>ps</code>:</p>
+
+<h2>top</h2>
+<section>
+    <p>El comando <code>top</code> permite monitorear lo que está ocurriendo en el sistema en tiempo real (por defecto se actualiza cada 3 segundos). La interfaz consta de varias líneas y una tabla:</p>
+
+    <ol>
+        <li>La primera línea muestra estadísticas tales como la hora actual, el tiempo que lleva encendido el equipo (<code>up</code>), la cantidad de usuarios activos y el promedio de carga del último minuto, de los últimos 5 minutos y de los últimos 15 minutos.</li>
+        <li>La segunda muestra la cantidad total de procesos, los que están en ejecución, los que están suspendidos (mayormente esperando a que ocurra algún evento), los que están detenidos y los que están en modo "zombie" (un proceso que ya ha finalizado pero que permanece debido al que lo inició).</li>
+        <li>La tercera muestra detalles del uso del CPU: cuál es el porcentaje que utilizan los usuarios (<code>us</code>) y cuál es el del sistema (<code>sy</code>), entre otros.</li>
+        <li>La cuarta y quinta línea muestran el uso de memoria RAM y virtual (<em>swap</em>) respectivamente.</li>
+    </ol>
+
+    <p>En esta tabla, las columnas más importantes son:</p>
+
+    <ul>
+        <li><code>PID</code> - El identificador del proceso. Con este número podremos finalizarlo si es que presenta algún problema.</li>
+        <li><code>USUARIO</code> o <code>USER</code> - El usuario que está ejecutando ese proceso.</li>
+        <li><code>NI</code> (<em>nice</em>) - El nivel de prioridad (cuanto más bajo, mayor es la prioridad)</li>
+        <li><code>%CPU</code> - El porcentaje del CPU en uso.</li>
+        <li><code>%MEM</code> - El porcentaje de memoria RAM en uso.</li>
+        <li><code>HORA+</code> o <code>TIME+</code> - El tiempo que lleva activo ese proceso.</li>
+        <li><code>ORDEN</code> o <code>COMMAND</code> - El nombre del proceso.</li>
+    </ul>
+
+    <p>Durante la ejecución de <code>top</code>, puedes presionar ciertas teclas para interactuar con el programa:</p>
+
+    <table>
+        <thead>
+            <th>Tecla</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>P</strong> (mayúscula)</td>
+                <td>Ordenar por uso de CPU (descendiente)</td>
+            </tr>
+            <tr>
+                <td><strong>M</strong> (mayúscula)</td>
+                <td>Ordenar por uso de memoria (descendente)</td>
+            </tr>
+            <tr>
+                <td><strong>N</strong> (mayúscula)</td>
+                <td>Ordenar por número de PID</td>
+            </tr>
+            <tr>
+                <td><strong>k</strong> (minúscula) + PID</td>
+                <td>Matar un proceso</td>
+            </tr>
+            <tr>
+                <td><strong>r</strong> (minúscula) + PID</td>
+                <td>Cambiar la prioridad de un proceso (<em>nice</em>)</td>
+            </tr>
+            <tr>
+                <td><strong>d</strong> (minúscula) + num</td>
+                <td>Cambiar el intervalo de actualización</td>
+            </tr>
+            <tr>
+                <td><strong>q</strong> (minúscula)</td>
+                <td>Sale de <code>top</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Además, el comando <code>top</code> tiene varias opciones muy útiles:</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>top -u</code> usuario</td>
+                <td>(<em>-user</em>) Muestra la actividad de un usuario en particular</td>
+            </tr>
+            <tr>
+                <td><code>top -d</code> num</td>
+                <td>(<em>-duration</em>) Define el intervalo de actualización</td>
+            </tr>
+            <tr>
+                <td><code>top -n</code> num</td>
+                <td>(<em>-number</em>) Se ejecuta una cierta cantidad de veces y luego finaliza</td>
+            </tr>
+            <tr>
+                <td><code>top -p</code> pid1 pid2...</td>
+                <td>(<em>-PID</em>) Monitorea solamente los procesos indicados</td>
+            </tr>
+            <tr>
+                <td><code>top -c</code> num</td>
+                <td>Muestra la línea de comando completa de cada proceso</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<h2>ps</h2>
+<section>
+    <p>El comando <code>ps</code> (<em>process</em>) suele utilizarse casi siempre junto con la opción <code>aux</code> y, a diferencia de <code>top</code>, muestra una instantánea estática de los procesos que se están ejecutando. La interfaz no es muy distinta, pero la ventaja de <code>ps aux</code> es que resulta más práctico para generar scripts, filtrando procesos u obteniendo el PID de alguno en particular. Por ejemplo:</p>
+
+<pre>
+<strong class="resaltar">ps aux</strong> | grep "bash"
+</pre>
+
+    <p><code>aux</code> en realidad son 3 opciones distintas y se pueden escribir incluso sin el guion (el comando las reconoce igualmente):</p>
+
+    <ul>
+        <li><code>a</code> - Muestra detalles de los procesos asociados a la terminal</li>
+        <li><code>u</code> - Muestra detalles de los procesos de cada usuario</li>
+        <li><code>x</code> - Muestra detalles incluso de aquellos procesos que no están asociados a la terminal</li>
+    </ul>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Abrir el Editor de Texto en segundo plano desde la terminal con <code>xed</code>.</li>
+        <li>Abrir una nueva consola con <code>Ctrl+Alt+T</code> y ejecutar <code>top</code>. Confirmar que el programa se está ejecutando. Si no aparece en el listado, escribir algo en el programa.</li>
+        <li>Salir de <code>top</code> y ejecutar el comando <code>ps aux | grep xed</code>.</li>
+        <li>Repetir el comando anterior y agregarle <code>> proceso-xed.txt</code> para guardar la información en un archivo de texto.</li>
+        <li>Ahora que se conoce el PID, finalizar el proceso con el comando <code>kill</code>. Verificar que el programa efectivamente se cierra.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="03-permisos-de-acceso.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="05-aplicaciones-y-paquetes.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

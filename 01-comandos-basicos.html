@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>COMANDOS BÁSICOS</h1>
+<p>Empecemos el recorrido por algunos comandos simples y de uso cotidiano en Linux:</p>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>exit</code></td>
+            <td>Cierra la consola</td>
+        </tr>
+        <tr>
+            <td><code>clear</code><br>
+                Ctrl + L
+            </td>
+            <td>Limpia la pantalla de la consola</td>
+        </tr>
+        <tr>
+            <td><code>echo</code> mensaje</td>
+            <td>Muestra un mensaje en la terminal <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>pwd</code></td>
+            <td>(<em>print working directory</em>) Muestra la ruta absoluta del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>history</code></td>
+            <td>Muestra un listado de los comandos utilizados</td>
+        </tr>
+        <tr>
+            <td><code>history -c</code></td>
+            <td>(<em>-clear</em>) Borra el listado de comandos utilizados</td>
+        </tr>
+        <tr>
+            <td><code>whatis</code> com</td>
+            <td>(<em>what is</em>) Muestra una descripción del comando</td>
+        </tr>
+        <tr>
+            <td><code>whereis</code></td>
+            <td>(<em>where is?</em>) Busca la ubicación de un archivo ejecutable. Si están disponibles, retorna también su fuente y manual</td>
+        </tr>
+        <tr>
+            <td><code>compgen -c</code> com</td>
+            <td>(<em>-commands</em>) Muestra un listado de todos los comandos que comiencen con <em>com</em></td>
+        </tr>
+        <tr>
+            <td><code>whoami</code></td>
+            <td>(<em>who am I</em>) Muestra el usuario actual</td>
+        </tr>
+        <tr>
+            <td>com <code>--help</code></td>
+            <td>Obtener ayuda sobre un comando</td>
+        </tr>
+        <tr>
+            <td><code>man</code> com</td>
+            <td>(<em>manual</em>) Muestra un manual sobre determinado comando del sistema. Se sale con la tecla <strong>Q</strong> (<em>quit</em>)</td>
+        </tr>
+        <tr>
+            <td><code>man -k</code> pal</td>
+            <td>(<em>-keyword</em>) Busca determinada palabra en el manual del sistema. Si aparece más de una vez, se avanza con la tecla <strong>N</strong> (<em>next</em>). También se puede buscar una palabra dentro del manual con <code>/</code> <em>palabra</em></td>
+        </tr>
+        <tr>
+            <td>com1 <code>;</code> com2</td>
+            <td>Ejecuta el <em>com1</em> y luego el <em>com2</em></td>
+        </tr>
+        <tr>
+            <td>com1 <code>&&</code> com2</td>
+            <td>Ejecuta el <em>com2</em> cuando el <em>com1</em> finaliza exitosamente</td>
+        </tr>
+        <tr>
+            <td>com1 <code>||</code> com2</td>
+            <td>Ejecuta el <em>com2</em> sólo si el <em>com1</em> falla</td>
+        </tr>
+        <tr>
+            <td>com1 <code>|</code> com2</td>
+            <td>Ejecuta el <em>com1</em> y envía la salida como entrada del <em>com2</em></td>
+        </tr>
+        <tr>
+            <td><code>$_</code></td>
+            <td>Es un comodín que toma el argumento del comando anterior</td>
+        </tr>
+        <tr>
+            <td><code>!!</code></td>
+            <td>Repite el último comando.<br>
+            ATENCIÓN: Cuidado al escribir <code>!</code> en una cadena de texto, ya que puede generar un error. Conviene usar el código de escape <code>\!</code> en ese caso</td>
+        </tr>
+        <tr>
+            <td><code>alias</code> nom<code>="</code> com<code>"</code></td>
+            <td>Permite definir alias temporales en la sesión. Al crear un alias, se le indica a la terminal que sustituya una palabra por un comando. Por ejemplo: <code>alias</code> <em>manual</em><code>="</code><em>man whoami</em><code>"</code></td>
+        </tr>
+        <tr>
+            <td><code>compgen -a</code></td>
+            <td>(<em>-alias</em>) Muestra un listado de todos los alias</td>
+        </tr>
+        <tr>
+            <td><code>unalias</code> nom</td>
+            <td>Elimina el alias definido</td>
+        </tr>
+        <tr>
+            <td><code>date</code></td>
+            <td>Muestra la fecha y hora actual</td>
+        </tr>
+        <tr>
+            <td><code>date +%H:%M:%S</code></td>
+            <td>Muestra únicamente la hora actual (<code>%H</code>) con sus minutos (<code>%M</code>) y segundos (<code>%S</code>)</td>
+        </tr>
+        <tr>
+            <td><code>compgen -v</code></td>
+            <td>(<em>-variables</em>) Muestra un listado de todas las variables de entorno</td>
+        </tr>
+        <tr>
+            <td><code>su</code></td>
+            <td>(<em>superuser</em>) Permite cambiar de usuario</td>
+        </tr>
+        <tr>
+            <td><code>sudo su</code></td>
+            <td>(<em>superuser do</em>) Permite actuar como usuario root, pidiendo la contraseña de usuario</td>
+        </tr>
+        <tr>
+            <td><code>passwd</code></td>
+            <td>(<em>password</em>) Permite cambiar la contraseña: primero pide la contraseña actual y luego la nueva</td>
+        </tr>
+        <tr>
+            <td><code>dir</code></td>
+            <td>(<em>directory</em>) Lista brevemente el contenido del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>dir -1</code></td>
+            <td>(<em>-one</em>) Lista brevemente el contenido del directorio actual, mostrando un elemento por línea</td>
+        </tr>
+        <tr>
+            <td><code>dir -l</code></td>
+            <td>(<em>-long</em>) Lista el contenido del directorio actual, mostrando un elemento por línea con sus detalles</td>
+        </tr>
+        <tr>
+            <td><code>du -h</code> ruta</td>
+            <td>(<em>disk usage -human</em>) Muestra el tamaño de los subdirectorios de la ruta indicada, en formato legible (Kb, Mb, etc.)</td>
+        </tr>
+        <tr>
+            <td><code>ls</code></td>
+            <td>(<em>list</em>) Lista los subdirectorios y archivos del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>ls</code> ruta</td>
+            <td>Muestra los subdirectorios y archivos de una ruta específica</td>
+        </tr>
+        <tr>
+            <td><code>ls -1</code></td>
+            <td>(<em>-one</em>) Lista brevemente el contenido del directorio actual, mostrando un elemento por línea</td>
+        </tr>
+        <tr>
+            <td><code>ls -l</code></td>
+            <td>(<em>-long</em>) Lista el contenido del directorio actual, mostrando un elemento por línea con sus detalles</td>
+        </tr>
+        <tr>
+            <td><code>ls -s</code></td>
+            <td>(<em>-size</em>) Muestra el tamaño de los elementos del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>ls -S</code></td>
+            <td>(<em>-Sort</em>) Muestra los elementos del directorio actual y los ordena por tamaño descendiente</td>
+        </tr>
+        <tr>
+            <td><code>ls -a</code></td>
+            <td>(<em>-all</em>) Muestra todos los elementos (incluso los ocultos) del directorio actual <a href="#2" class="nota-al-pie"><sup>[2]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>ls -la</code></td>
+            <td>Muestra todos los elementos (incluso los ocultos) del directorio actual, con sus detalles</td>
+        </tr>
+        <tr>
+            <td><code>ls -R</code></td>
+            <td>(<em>-Recursive</em>) Muestra todos los elementos de los subdirectorios del directorio actual</td>
+        </tr>
+        <tr>
+            <td><code>ls -r</code></td>
+            <td>(<em>-reverse</em>) Invierte el orden del listado</td>
+        </tr>
+        <tr>
+            <td><code>ls *.</code>ext</td>
+            <td>Muestra únicamente aquellos archivos con una determinada extensión <a href="#3" class="nota-al-pie"><sup>[3]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>ls</code> ab<code>*</code></td>
+            <td>Muestra únicamente aquellos archivos cuyo nombre empieza con "ab"</td>
+        </tr>
+        <tr>
+            <td><code>ls</code> a<code>???</code></td>
+            <td>Muestra únicamente aquellos archivos cuyo nombre tiene cuatro caracteres y empieza con "a" <a href="#4" class="nota-al-pie"><sup>[4]</sup></a></td>
+        </tr>
+        <tr>
+            <td><code>cd</code> ruta</td>
+            <td>(<em>change directory</em>) Cambia a la ruta indicada, sea absoluta o relativa</td>
+        </tr>
+        <tr>
+            <td><code>cd</code></td>
+            <td>Vuelve al directorio de inicio (<em>home</em>)</td>
+        </tr>
+        <tr>
+            <td><code>cd ..</code></td>
+            <td>Sube un nivel en los directorios. <code>../..</code> sube dos niveles, <code>../../..</code> sube tres y así sucesivamente</td>
+        </tr>
+        <tr>
+            <td><code>cd ../</code>dir</td>
+            <td>Sube un nivel y enseguida ingresa a otro subdirectorio</td>
+        </tr>
+        <tr>
+            <td><code>cd -</code></td>
+            <td>Muestra en pantalla el directorio anterior y regresa a él</td>
+        </tr>
+        <tr>
+            <td><code>./</code>arch<br>
+            <code>bash</code> arch</td>
+            <td>Ejecuta un archivo</td>
+        </tr>
+        <tr>
+            <td><code>locate</code> arch</td>
+            <td>Busca un archivo según su nombre</td>
+        </tr>
+        <tr>
+            <td><code>file</code> arch</td>
+            <td>Muestra una descripción breve del tipo de archivo
+            </td>
+        </tr>
+        <tr>
+            <td><code>find</code> ruta <code>-name</code> nom <code>-type</code> tipo</td>
+            <td>Busca un archivo o directorio con cierto nombre dentro de un directorio dado. La opción <code>-type</code> especifica el tipo: <code>d</code> para directorios, <code>f</code> para archivos</td>
+        </tr>
+        <tr>
+            <td><code>grep</code> expr arch</td>
+            <td>Busca una expresión determinada en cierto archivo</td>
+        </tr>
+        <tr>
+            <td><code>grep -i</code> expr arch</td>
+            <td>(<em>-ignore-case</em>) Busca una expresión determinada en cierto archivo ignorando mayúsculas o minúsculas</td>
+        </tr>
+        <tr>
+            <td><code>reboot</code></td>
+            <td>Reinicia la computadora</td>
+        </tr>
+        <tr>
+            <td><code>shutdown</code> hh:mm</td>
+            <td>Apaga la computadora a la hora señalada (en formato de 24 h)</td>
+        </tr>
+        <tr>
+            <td><code>shutdown now</code></td>
+            <td>Apaga la computadora inmediatamente</td>
+        </tr>
+        <tr>
+            <td><code>shutdown -c</code></td>
+            <td>Cancela el apagado programado</td>
+        </tr>
+        <tr>
+            <td><code>mount</code> ruta_unidad ruta_destino</td>
+            <td>Monta una unidad (disco duro, USB, tarjeta de memoria, etc.) en un directorio determinado</td>
+        </tr>
+        <tr>
+            <td><code>free</code></td>
+            <td>Muestra el uso de memoria RAM</td>
+        </tr>
+        <tr>
+            <td><code>df</code></td>
+            <td>(<em>disk free</em>) Muestra una lista detallada de todas las unidades</td>
+        </tr>
+        <tr>
+            <td><code>df -h</code></td>
+            <td>(<em>-human</em>) Muestra una lista detallada de todas las unidades con sus tamaños en megabytes, gigabytes, etc.</td>
+        </tr>
+        <tr>
+            <td><code>df -T</code></td>
+            <td>(<em>-Type</em>) Muestra todas las unidades con su sistema de archivos (ext4, FAT32, NTFS, etc.)</td>
+        </tr>
+        <tr>
+            <td><code>uname -a</code></td>
+            <td>(<em>Unix name -all</em>) Muestra la información del sistema operativo</td>
+        </tr>
+        <tr>
+            <td><code>neofetch</code></td>
+            <td>Muestra la información del sistema con un logotipo en formato ASCII de la distribución de Linux</td>
+        </tr>
+        <tr>
+            <td><code>wget</code> url</td>
+            <td>(<em>World Wide Web get</em>) Guarda un contenido obtenido desde Internet</td>
+        </tr>
+        <tr>
+            <td><code>ping</code> url<br>
+            <code>ping</code> ip</td>
+            <td>Prueba la conexión de red a un dominio o a una dirección IP</td>
+        </tr>
+        <tr>
+            <td><code>uptime</code></td>
+            <td>Muestra el tiempo que lleva encendida la computadora</td>
+        </tr>
+        <tr>
+            <td><code>w</code></td>
+            <td>(w minúscula) Muestra información sobre los usuarios que están conectados actualmente</td>
+        </tr>
+        <tr>
+            <td><code>hostname</code></td>
+            <td>Muestra el nombre de la red</td>
+        </tr>
+        <tr>
+            <td><code>hostname -I</code></td>
+            <td>(<em>-IP</em>) Muestra la IP de la red</td>
+        </tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <p id="1"><sup class="nota-al-pie">[1]</sup> Puedes utilizar la opción <code>-e</code> y el código de escape <code>\n</code> para generar saltos de línea. Por ejemplo:</p>
+
+<pre>
+echo <strong class="resaltar">-e</strong> "Opción A<strong class="resaltar">\n</strong>Opción B<strong class="resaltar">\n</strong>Opción C"
+</pre>
+
+    <p>se mostrará como:</p>
+
+<pre>
+Opción A
+Opción B
+Opción C
+</pre>
+
+    <p id="2"><sup class="nota-al-pie">[2]</sup> Los nombres de los archivos y directorios ocultos comienzan con un punto (<code>.</code>), así que si deseas ocultar un archivo o carpeta puedes agregárselo.</p>
+    <p id="3"><sup class="nota-al-pie">[3]</sup>El asterisco (<code>*</code>) es un comodín que reemplaza a cero o más caracteres y se utiliza mayormente cuando se quiere indicar la totalidad de algo.</p>
+    <p id="4"><sup class="nota-al-pie">[4]</sup> El signo de interrogación (<code>?</code>) es un comodín que reemplaza a un solo caracter.</p>
+</blockquote>
+
+<p>Veamos en más detalle cómo funcionan algunos de ellos.</p>
+
+<h2>Operadores de encadenamiento</h2>
+<section>
+    <p>Como el nombre lo indica, estos operadores permiten encadenar varios comandos en una misma línea.</p>
+
+    <h3>com1 ; com2</h3>
+    <p>Con el operador <code>;</code> se ejecuta un comando a continuación del otro. Por ejemplo:</p>
+
+<pre>
+whoami <strong class="resaltar">;</strong> date
+<em class="comentario"># javier</em>
+<em class="comentario"># lun 30 mar 2026 15:03:48 -03</em>
+</pre>
+
+    <h3>com1 && com2</h3>
+    <p>El operador <code>&&</code> indica que un comando se ejecutará a continuación de otro solamente si el primero es exitoso.</p>
+
+<pre>
+ls *.png <strong class="resaltar">&&</strong> pwd
+<em class="comentario"># Si en la carpeta actual hay archivos con extensión PNG, se mostrará el listado y a continuación la ruta. Pero si no hay ninguno, marcará un error.</em>
+</pre>
+
+    <h3>com1 || com2</h3>
+    <p>La barra vertical doble (<code>||</code>) indica que el segundo comando se ejecutará únicamente cuando el primero falle. Retomando el ejemplo anterior:</p>
+
+<pre>
+ls *.png <strong class="resaltar">||</strong> pwd       <em class="comentario"># Supongamos que no existe ningún archivo PNG</em>
+<em class="comentario"># Primero marcará el error del primer comando y luego se mostrará la ruta del directorio actual.</em>
+</pre>
+
+    <h3>com1 | com2</h3>
+    <p>La barra vertical simple (<code>|</code>) es un operador que probablemente vayas a utilizar muy a menudo. Se ejecuta el primer comando y la salida se envía como entrada del segundo. A este encadenamiento se le conoce como <em>pipe</em> (tubería).</p>
+
+<pre>
+ls <strong class="resaltar">|</strong> wc -l
+<em class="comentario"># El primero devuelve una lista de todos los archivos y carpetas actuales y se pasa al segundo que cuenta cuántos son.</em>
+</pre>
+
+    <p>(Más adelante veremos en mayor detalle el comando <code>wc</code>).</p>
+</section>
+
+<h2>Operadores !! y $_</h2>
+<section>
+    <p>El operador <code>!!</code> repite el comando que se ha ejecutado previamente. Ejemplo:</p>
+
+<pre>
+date +%H:%M     <em class="comentario"># 16:02</em>
+<strong class="resaltar">!!</strong>              <em class="comentario"># 16:02</em>
+</pre>
+
+    <p>En cambio, el operador <code>$_</code> reemplaza al argumento del comando anterior. Por ejemplo:</p>
+
+<pre>
+whatis pwd
+man <strong class="resaltar">$_</strong>    <em class="comentario"># Muestra el manual de pwd</em>
+</pre>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Imprimir un mensaje que diga "<code>¡Hola! Soy</code> <em><strong>[usuario]</strong></em> <code>y actualmente estoy en la carpeta</code> <em><strong>[directorio]</strong></em>".</li>
+        <li>Crear un alias llamado <code>saludo</code> que imprima por consola el mensaje "<code>Hoy es: </code> <em><strong>[fecha]</strong></em>". (Pista: utilizar comillas simples). Ejecutar ese mismo alias y luego borrarlo.</li>
+        <li>Mostrar el listado de todos los archivos que tengan extensión <code>txt</code> en la carpeta actual.</li>
+        <li>Ejecutar <code>neofetch</code> primero. Luego usar el comando <code>whatis</code> para mostrar su descripción.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="02-archivos-y-directorios.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

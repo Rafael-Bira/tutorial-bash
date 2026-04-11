@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>HERRAMIENTAS ÚTILES</h1>
+<p>Ya hemos visto que Linux trae embebidos algunos comandos útiles como <code>grep</code>, <code>sort</code>, <code>head</code> o <code>tail</code>. A continuación te mostraré algunas otras herramientas de suma utilidad para el uso cotidiano de Bash.</p>
+
+<h2>awk</h2>
+<section>
+    <p>El nombre <code>awk</code> proviene de las iniciales de sus autores. Es un programa poderosísimo que se utiliza, entre otras cosas, para buscar patrones, procesar texto y extraer información de un archivo. Es sumamente práctico para procesar archivos de tipo <code>csv</code>, o uno cuyo texto esté ordenado en columnas por tabulaciones, o uno cuyas columnas estén separadas por "<code>|</code>", etc.</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>awk -F "," '{print $</code>n<code>}'</code> arch</td>
+                <td>(<em>-Fields</em>) Muestra los datos de la columna <em>n</em> del archivo</td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," '{print $</code>m<code> "</code>sep<code>" $</code>n<code>}'</code> arch</td>
+                <td>Muestra los datos de las columnas <em>m</em> y <em>n</em> del archivo, separadas por <em>sep</em></td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," -v</code> var<code>=</code>valor <code>'{print</code> var <code>$</code>n<code>}'</code> arch</td>
+                <td>(<em>-variable</em>) Permite imprimir el valor de una variable antes de la columna <em>n</em></td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," '{</code>op<code>} END {print</code> op<code>}'</code> arch</td>
+                <td>Efectúa una operación e imprime el resultado.<br>
+                    ATENCIÓN: Recordar que la operación va entre llaves (<code>{ }</code>) y que termina con la palabra <code>END</code></td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," '{</code>suma<code> += $</code>n<code>} END {print</code> suma<code>}'</code> arch</td>
+                <td>Calcula e imprime la suma de todos los valores de la columna <em>n</em>. No olvidar la palabra <code>END</code></td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," '{</code>prom<code> += $</code>n<code> / </code>m<code>} END {print</code> prom<code>}'</code> arch</td>
+                <td>Calcula e imprime el promedio de la columna <em>n</em> que tiene un total de <em>m</em> valores. No olvidar la palabra <code>END</code></td>
+            </tr>
+            <tr>
+                <td><code>awk -F "," '</code>cond<code> {print</code> cond<code>}'</code> arch</td>
+                <td>Evalúa una condición e imprime el resultado</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: Para archivos CSV u otros cuyas columnas estén divididas por otro separador, <strong>siempre</strong> es necesario especificar la opción <code>-F</code>. Además, el separador puede escribirse entre comillas dobles (<code>"</code>) o simples (<code>'</code>), pero la expresión va <strong>exclusivamente</strong> entre comillas simples.
+    </blockquote>
+
+    <h3>Archivos CSV</h3>
+    <section>
+        <p>Supongamos que tenemos el archivo <code>alumnos.csv</code>:</p>
+
+<pre>
+Isabel,9 años,8,Matemática
+Joaquín,7 años,5,Historia
+Kevin,8 años,9,Lengua
+Laura,10 años,7,Geografía
+</pre>
+
+    <p>Veamos cómo se aplica cada comando:</p>
+
+<pre>
+<strong class="resaltar">awk -F "," '{print $1}'</strong> alumnos.csv
+<em class="comentario"># Isabel
+# Joaquín
+# Kevin
+# Laura</em>
+</pre>
+
+<pre>
+awk -F "," '{print $1 <strong class="resaltar">" => "</strong> $2}' alumnos.csv
+<em class="comentario"># Isabel => 9 años
+# Joaquín => 7 años
+# Kevin => 8 años
+# Laura => 10 años</em>
+</pre>
+
+<pre>
+awk -F "," <strong class="resaltar">-v mat=" se destaca en "</strong> '{print $1 <strong class="resaltar">mat</strong> $4}' alumnos.csv
+<em class="comentario"># Isabel se destaca en Matemática
+# Joaquín se destaca en Historia
+# Kevin se destaca en Lengua
+# Laura se destaca en Geografía</em>
+</pre>
+
+<pre>
+awk -F "," '<strong class="resaltar">{suma += $2} END {print "La suma de todas las edades es " suma}</strong>' alumnos.csv
+<em class="comentario"># La suma de todas las edades es 34</em>
+</pre>
+
+<pre>
+awk -F "," '<strong class="resaltar">{prom += $3 / 4} END {print "El promedio de calificaciones es " prom}</strong>' alumnos.csv
+<em class="comentario"># El promedio de calificaciones es 7.25</em>
+</pre>
+
+<pre>
+awk -F "," '<strong class="resaltar">$3 >= 7 {print $1 ": " $3}</strong>' alumnos.csv       <em class="comentario"># Imprimir las calificaciones mayores o iguales a 7</em>
+<em class="comentario"># Isabel: 8
+# Kevin: 9
+# Laura: 7</em>
+</pre>
+    </section>
+
+    <h3>Archivo con tabulaciones</h3>
+    <section>
+        <p>Ahora veamos el caso de un archivo de texto con tabulaciones, por ejemplo <code>frutas.txt</code>:</p>
+
+<pre>
+Mariana		manzanas	8
+Nicolás		naranjas	13
+Octavio		bananas		10
+Pablo		duraznos	5
+Rogelio		peras		9
+</pre>
+
+    <p>Como hay tabulaciones, no es necesario especificar <code>-F</code>:</p>
+
+<pre>
+<strong class="resaltar">awk '{print $2}'</strong> frutas.txt
+<em class="comentario"># manzanas
+# naranjas
+# bananas
+# duraznos
+# peras</em>
+</pre>
+
+<pre>
+awk '{print $2 <strong class="resaltar">" = "</strong> $3}'</strong> frutas.txt
+<em class="comentario"># manzanas = 8
+# naranjas = 13
+# bananas = 10
+# duraznos = 5
+# peras = 9</em>
+</pre>
+
+<pre>
+awk <strong class="resaltar">-v var=" tiene "</strong> '{print $1 <strong class="resaltar">var</strong> $3 " " $2}'</strong> frutas.txt
+<em class="comentario"># Mariana tiene 8 manzanas
+# Nicolás tiene 13 naranjas
+# Octavio tiene 10 bananas
+# Pablo tiene 5 duraznos
+# Rogelio tiene 9 peras</em>
+</pre>
+
+<pre>
+awk '<strong class="resaltar">{suma += $3} END {print "Hay " suma " frutas en total"}</strong>' frutas.txt
+<em class="comentario"># Hay 45 frutas en total</em>
+</pre>
+
+<pre>
+awk '<strong class="resaltar">{prom += $3 / 5} END {print "En promedio hay " prom " frutas"}</strong>' frutas.txt
+<em class="comentario"># En promedio hay 9 frutas</em>
+</pre>
+
+<pre>
+awk '<strong class="resaltar">$3 > 10 {print $1 " tiene más de 10" $1}</strong>' frutas.txt
+<em class="comentario"># Nicolás tiene más de 10</em>
+</pre>
+    </section>
+
+    <h3>Operaciones con decimales</h3>
+    <section>
+        <p>Como se dijo en un capítulo anterior, <code>awk</code> se puede incorporar a nuestros scripts para realizar cálculos con números decimales. Es un procedimiento muy sencillo, usando la palabra <code>BEGIN</code>:</p>
+
+<pre>
+awk '<strong class="resaltar">BEGIN</strong> {print 1.95 + 3.76}'       <em class="comentario"># 5.71</em>
+</pre>
+
+        <p>Otra enorme ventaja de <code>awk</code> es que cuenta con ciertas funciones para cálculos más complejos:</p>
+
+        <ul>
+            <li><code>sqrt(</code><em><strong>x</strong></em><code>)</code> - Raíz cuadrada.
+
+<pre>
+awk 'BEGIN {print <strong class="resaltar">sqrt(</strong>81<strong class="resaltar">)</strong>}'    <em class="comentario"># 9</em>
+</pre>
+
+            </li>
+            <li><code>sin(</code><em><strong>x</strong></em><code>)</code>, <code>cos(</code><em><strong>x</strong></em><code>)</code> - Seno y coseno.
+
+<pre>
+awk 'BEGIN {print <strong class="resaltar">sin(</strong>8.43<strong class="resaltar">)</strong>}'   <em class="comentario"># 0.838638</em>
+awk 'BEGIN {print <strong class="resaltar">cos(</strong>507<strong class="resaltar">)</strong>}'    <em class="comentario"># -0.359016</em>
+</pre>
+
+            </li>
+            <li><code>log(</code><em><strong>x</strong></em><code>)</code> - Logaritmo natural.
+
+<pre>
+awk 'BEGIN {print <strong class="resaltar">log(</strong>29.11<strong class="resaltar">)</strong>}'      <em class="comentario"># 3.37108</em>
+</pre>
+
+        </li>
+    </ul>
+
+        <p>Además, si el resultado tiene muchos decimales podemos redondearlo con <code>printf</code> y el operador <code>%.</code><em><strong>n</strong></em><code>f</code>, donde <em>n</em> indica la cantidad de dígitos decimales:</p>
+
+<pre>
+awk 'BEGIN {<strong class="resaltar">printf "%.3f\n",</strong> 1 / 3}'      <em class="comentario"># 0.333</em>
+<em class="comentario"># \n es opcional y sólo produce un salto de línea</em>
+</pre>
+
+        <p>Con la opción <code>-v</code> podemos utilizar variables de nuestro código dentro de las expresiones de <code>awk</code>:</p>
+
+<pre>
+iva=0.21
+precio=349.50
+
+awk <strong class="resaltar">-v</strong> p=$precio <strong class="resaltar">-v</strong> i=$iva 'BEGIN {print "El total es", p + (p * i)}'       <em class="comentario"># El total es 422.895</em>
+</pre>
+    </section>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Crear un archivo de nombre <code>verduras.txt</code> con este código
+<pre>
+albahaca | 14 | $ 10.75
+lechuga	| 2 | $ 6.00
+tomate | 7 | $ 9.50
+zanahoria | 6 | $ 7.25
+cebolla | 8 | $ 5.00
+</pre>
+            y seleccionar sólo aquellas que tengan igual o más de 6 unidades, imprimiendo su nombre y cantidad.</li>
+            <li>Calcular y mostrar el costo por 5 unidades de cada verdura.</li>
+            <li>Calcular y mostrar el precio total si se compraran todas las verduras.</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>cut</h2>
+<section>
+    <p><code>cut</code> es otro programa que se utiliza para dividir el contenido de un archivo. Si bien no es tan poderoso como <code>awk</code>, es más fácil de usar porque su sintaxis es más sencilla:</p>
+
+<pre>
+<strong class="resaltar">cut -f</strong> col1<strong class="resaltar">,</strong>col2... <strong class="resaltar">-d</strong> sep arch
+</pre>
+    
+    <p>La opción <code>-f</code> (<em>-fields</em>) indica cuáles son las columnas que se quieren mostrar y la opción <code>-d</code> cuál es el separador (por defecto se considera la tabulación, pero puede ser cualquiera).</p>
+
+    <p>Veamos cómo funciona empleando nuevamente el archivo <code>alumnos.csv</code>:</p>
+
+<pre>
+cut -f 1,3 -d "," alumnos.csv
+<em class="comentario"># Isabel,8
+# Joaquín,5
+# Kevin,9
+# Laura,7</em>
+</pre>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: Como se puede apreciar, se imprime también el separador original del archivo, ya sea una coma, una tabulación, etc.
+    </blockquote>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Con el mismo archivo <code>verduras.txt</code> del ejercicio anterior, mostrar solamente las columnas del nombre y del precio.</li>
+            <li>Con el archivo <code>frutas.txt</code> anterior, ejecuta la instrucción <code>cut -f 2 frutas.txt</code>. Explica el resultado y corrije el archivo para que se muestren correctamente las columnas de los nombres y las frutas.</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>cron</h2>
+<section>
+    <p>En Linux existe el programa <strong>cron</strong> (<em>Command Run ON</em>) que permite ejecutar tareas preprogramadas automáticamente cada cierto intervalo de tiempo. Estas automatizaciones se agrupan en una tabla llamada <code>crontab</code>, donde se detalla en cada línea una tarea distinta. Cada usuario puede tener su propia <em>crontab</em> o bien puede existir una a nivel global de sistema.</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>crontab -l</code></td>
+                <td>(<em>-list</em>) Muestra un listado de las tareas programadas</td>
+            </tr>
+            <tr>
+                <td><code>crontab -e</code></td>
+                <td>(<em>-edit</em>) Abre el editor de texto para poder administrar las tareas <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
+            </tr>
+            <tr>
+                <td><code>crontab -r</code></td>
+                <td>(<em>-remove</em>) Elimina la crontab actual</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <blockquote>
+        <p id="1"><sup class="nota-al-pie">[1]</sup> La primera vez que se ejecute Cron pedirá elegir el editor que se usará por defecto. Por supuesto, éste se puede cambiar luego.</p>
+    </blockquote>
+
+    <p>La sintaxis es simple: 5 asteriscos separados por espacios (<code>* * * * *</code>) y el nombre del comando o del script a ejecutarse:</p>
+
+<pre>
+* * * * * comando
+</pre>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: Si lo que se va a ejecutar es un script, se debe escribir su ruta absoluta.
+    </blockquote>
+
+    <p>Cada uno de los asteriscos indica una unidad de tiempo. De izquierda a derecha:</p>
+
+    <ol>
+        <li>Minutos (<code>0</code> - <code>59</code>)</li>
+        <li>Hora (<code>0</code> - <code>23</code>)</li>
+        <li>Día del mes (<code>1</code> - <code>31</code>)</li>
+        <li>Mes (<code>1</code> - <code>12</code>)</li>
+        <li>Día de la semana (<code>0</code> - <code>6</code>), donde <code>0</code> = domingo</li>
+    </ol>
+
+    <p>Ejemplos:</p>
+
+<pre>
+45 9 * * 3      <em class="comentario"># Se ejecuta todos los miércoles a las 9:45</em>
+0 19 10 * *     <em class="comentario"># Se ejecuta todos los 10 de cada mes a las 19:00</em>
+30 22 17 11 *   <em class="comentario"># Se ejecuta cada 17 de noviembre a las 22:30</em>
+</pre>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: Es recomendable probar primero de modo manual el comando para verificar que funciona adecuadamente.
+    </blockquote>
+
+    <p>En Crontab también se utilizan comodines:</p>
+
+    <table>
+        <thead>
+            <th>Comodín</th>
+            <th>Indica</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>*</code></td>
+                <td>Cualquier valor</td>
+            </tr>
+            <tr>
+                <td><code>,</code></td>
+                <td>Más de un valor</td>
+            </tr>
+            <tr>
+                <td><code>-</code></td>
+                <td>Rango</td>
+            </tr>
+            <tr>
+                <td><code>*/</code></td>
+                <td>Frecuencia</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Algunos ejemplos:</p>
+
+<pre>
+<strong class="resaltar">* * * * *</strong>         <em class="comentario"># Se ejecutará cada minuto</em>
+0 <strong class="resaltar">7,13,18</strong> * * *   <em class="comentario"># Se ejecutará a las 7, a las 13 y a las 18</em>
+0 <strong class="resaltar">8-12</strong> * * *      <em class="comentario"># Se ejecutará cada hora entre las 8 y 12 inclusive</em>
+<strong class="resaltar">*/15</strong> * * * *      <em class="comentario"># Se ejecutará cada 15 minutos</em>
+</pre>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Crear un script que guarde el mensaje "<code>¡Hola, mundo!</code>" en un archivo llamado <code>saludo.txt</code> y establecer con Cron que se ejecute cada 5 minutos. (Pista: utilizar el operador <code>>></code>).</li>
+            <li>Crear un script que guarde el mensaje "<code>Ya pasó media hora</code>" y se ejecute a la hora y cuarto (15 min) y menos cuarto (45 min), por las pŕoximas 2 horas.</li>
+            <li>Crear otro que guarde el mensaje "<code>Son las</code> <em><strong>[hora]</strong></em> <code>horas</code>" y que efectivamente se ejecute en punto en las próximas 3 horas. (Pista: utilizar el comando <code>date +%H:%M</code>)</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>sed</h2>
+<section>
+    <p><code>sed</code> (<em>stream editor</em>) es un programa múy útil para modificar el texto de un archivo.</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>sed 's/</code>str1<code>/</code>str2<code>/g'</code> arch</td>
+                <td>Sustituye todas las coincidencias de <em>str1</em> por <em>str2</em> (la <code>s</code> indica "sustitución" y la <code>g</code> indica "global"), sin alterar el archivo original</td>
+            </tr>
+            <tr>
+                <td><code>sed -i 's/</code>str1<code>/</code>str2<code>/g'</code> arch</td>
+                <td>(<em>-in-place</em>) Sustituye todas las coincidencias de <em>str1</em> por <em>str2</em>, <strong>modificando el archivo original</strong></td>
+            </tr>
+            <tr>
+                <td><code>sed -n 's/</code>str1<code>/</code>str2<code>/p'</code> arch</td>
+                <td>Sustituye todas las coincidencias de <em>str1</em> por <em>str2</em>, imprimiendo únicamente aquellas líneas en las que aparece</td>
+            </tr>
+            <tr>
+                <td><code>sed -r 's/</code>regex<code>/</code>str<code>/g'</code> arch</td>
+                <td>(<em>-regular-expression</em>) Permite utilizar expresiones regulares (<em>RegEx</em>)</td>
+            </tr>
+            <tr>
+                <td><code>sed 's/^/</code>pref<code>/'</code> arch</td>
+                <td>Añade un prefijo al comienzo de cada línea</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p>Veamos algunos ejemplos de cómo se aplica <code>sed</code>. Supongamos que tenemos un archivo de texto llamado <code>prueba.txt</code> con el siguiente contenido:</p>
+
+<pre>
+¡Hola, mundo!
+Esta es la línea 2
+y esta es la línea 3.
+¡Bienvenido al mundo de Bash!
+</pre>
+
+    <p>Entonces:</p>
+
+<pre>
+<strong class="resaltar">sed 's/</strong>mundo<strong class="resaltar">/</strong>universo<strong class="resaltar">/g'</strong> prueba.txt
+<em class="comentario"># ¡Hola, universo!
+# Esta es la línea 2
+# y esta es la línea 3.
+# ¡Bienvenido al universo de Bash!</em>
+</pre>
+
+<pre>
+sed <strong class="resaltar">-i</strong> 's/línea/fila/g' prueba.txt    <em class="comentario"># SÍ se modifica el archivo original</em>
+<em class="comentario"># ¡Hola, mundo!
+# Esta es la fila 2
+# y esta es la fila 3.
+# ¡Bienvenido al mundo de Bash!</em>
+
+cat prueba.txt      
+<em class="comentario"># ¡Hola, mundo!
+# Esta es la fila 2
+# y esta es la fila 3.
+# ¡Bienvenido al mundo de Bash!</em>
+</pre>
+
+<pre>
+sed <strong class="resaltar">-n</strong> 's/mundo/universo/<strong class="resaltar">p</strong>' prueba.txt     
+<em class="comentario"># ¡Hola, universo!
+# ¡Bienvenido al universo de Bash!</em>
+</pre>
+
+<pre>
+sed <strong class="resaltar">-r</strong> 's/la línea [2,3]/otra línea/g' prueba.txt      <em class="comentario"># Sustituye "la línea 2" y "la línea 3" por "otra línea"</em>     
+<em class="comentario"># ¡Hola, mundo!
+# Esta es otra línea
+# y esta es otra línea.
+# ¡Bienvenido al mundo de Bash!</em>
+</pre>
+
+<pre>
+sed 's/<strong class="resaltar">^</strong>/=> /' prueba.txt     
+<em class="comentario"># => ¡Hola, mundo!
+# => Esta es la línea 2
+# => y esta es la línea 3.
+# => ¡Bienvenido al mundo de Bash!</em>
+</pre>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Con el mismo ejemplo <code>prueba.txt</code>, sustituir "<code>a es la línea</code>" por "<code>e es el renglón</code>", <em>modificando el archivo original</em>.</li>
+            <li>Agregar el prefijo "<code>--> </code>" (espacio incluido).</li>
+            <li>Sustituir todas las "<code>o</code>" por "<code>0</code>" (ceros).</li>
+            <li>Cambiar todas las "<code>a</code>" y "<code>e</code>" por "<code>4</code>".</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>tee</h2>
+<section>
+    <p>El programa <code>tee</code> es muy sencillo: permite guardar el resultado de un comando, al mismo tiempo que lo imprime en pantalla. Cabe remarcar que siempre debe utilizarse en un <em>pipe</em> a la salida de otro comando. Por ejemplo, supongamos que tenemos estos archivos y directorios:</p>
+
+<pre>
+Imágenes
+Música
+Videos
+script1.sh
+script2.sh
+script3.sh
+script4.sh
+</pre>
+
+    <p>Y queremos guardar en un archivo de texto un listado con los archivos de scripts únicamente:</p>
+
+<pre>
+ls *.sh | <strong class="resaltar">tee</strong> scripts.txt
+</pre>
+
+    <p>Entonces el siguiente listado se mostrará por consola y se guardará en el archivo <code>scripts.txt</code>:</p>
+
+<pre>
+script1.sh
+script2.sh
+script3.sh
+script4.sh
+</pre>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Guardar en un archivo de texto todos los nombres de los archivos con extensión <code>jpg</code>.</li>
+            <li>Guardar en un archivo de texto el historial de comandos utilizados.</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>tr</h2>
+<section>
+    <p><code>tr</code> es un comando que se usa para convertir, reemplazar o borrar caracteres en un archivo. Al igual que <code>tee</code>, debe incluirse como parte de un <em>pipe</em> o bien con el operador <code><</code> <em>arch</em> (¿recuerdas qué es lo que hace?)</p>
+
+    <p>Ejemplos:</p>
+
+<pre>
+echo "¡hola, mundo!" <strong class="resaltar">| tr</strong> a-z A-Z      <em class="comentario"># ¡HOLA, MUNDO!</em>
+
+<strong class="resaltar">tr</strong> a-z A-Z <strong class="resaltar"><</strong> archivo     <em class="comentario"># Convierte todo el texto del archivo a mayúsculas</em>
+</pre>
+
+    <p>Es importante mencionar que el comando <code>tr</code> NO modifica el archivo original, entonces para guardar el resultado podemos simplemente utilizar el operador <code>></code>.</p>
+
+<pre>
+tr ... <strong class="resaltar"><</strong> orig <strong class="resaltar">></strong> nuevo
+</pre>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>tr</code> char1 char2</td>
+                <td>Reemplaza <em>char1</em> por <em>char2</em></td>
+            </tr>
+            <tr>
+                <td><code>tr </code>char1<code>-</code>char2<code> </code>char3<code>-</code>char4</td>
+                <td>Reemplaza el rango entre <em>char1</em> y <em>char2</em> por el rango entre <em>char3</em> y <em>char4</em></td>
+            </tr>
+            <tr>
+                <td><code>tr </code>char1<code>,</code>char2<code> </code>char3<code>,</code>char4<code></code></td>
+                <td>Reemplaza los caracteres <em>char1</em> y <em>char2</em> por <em>char3</em> y <em>char4</em> respectivamente</td>
+            </tr>
+            <tr>
+                <td><code>tr [:lower:] [:upper:]</code><br>
+                <code>tr a-z A-Z</code></td>
+                <td>Convierte las letras minúsculas a mayúsculas. También se puede aplicar al revés</td>
+            </tr>
+            <tr>
+                <td><code>tr [:space:]</code> char</td>
+                <td>Sustituye los espacios por un caracter</td>
+            </tr>
+            <tr>
+                <td><code>tr [:digit:]</code> char</td>
+                <td>Sustituye los dígitos por un caracter</td>
+            </tr>
+            <tr>
+                <td><code>tr -d</code> char</td>
+                <td>(<em>-delete</em>) Borra el o los caracteres indicados</td>
+            </tr>
+            <tr>
+                <td><code>tr -c</code> char1 char2</td>
+                <td>(<em>-complement</em>) Reemplaza con <em>char2</em> a todos aquellos caracteres que NO sean <em>char1</em></td>
+            </tr>
+            <tr>
+                <td><code>tr -s</code> char</td>
+                <td>(<em>-squeeze-repeats</em>) Reduce una secuencia de caracteres repetidos a uno solo (por ejemplo, cuando hay muchos espacios).</td>
+            </tr>
+            <tr>
+                <td><code>tr -s</code> char1 char2</td>
+                <td>Reduce una secuencia de caracteres repetidos a uno solo, y lo sustituye por <em>char2</em></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Veamos cada uno en detalle:</p>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">[:lower:] [:upper:]</strong>      <em class="comentario"># APRENDIENDO EN BASH</em>
+</pre>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">b-e X</strong>      <em class="comentario"># aprXnXiXnXo Xn Xash</em>
+</pre>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">d,e %</strong>      <em class="comentario"># apr%n%i%n%o %n bash</em>
+</pre>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">[:space:] -</strong>      <em class="comentario"># aprendiendo-en-bash</em>
+</pre>
+
+<pre>
+echo "4pr3nd13nd0 3n b4sh" | tr <strong class="resaltar">[:digit:] .</strong>      <em class="comentario"># .pr.nd..nd. .n b.sh</em>
+</pre>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">-d en</strong>      <em class="comentario"># aprdido  bash</em>
+</pre>
+
+<pre>
+echo "aprendiendo en bash" | tr <strong class="resaltar">-c en +</strong>      <em class="comentario"># +++en++en+++en++++++</em>
+</pre>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: El último caracter reemplazado corresponde a <code>\n</code> (salto de línea).
+    </blockquote>
+
+<pre>
+echo "aprendiendo    en    bash" | tr <strong class="resaltar">-s ' '</strong>      <em class="comentario"># aprendiendo en bash</em>
+</pre>
+
+<pre>
+echo "aprendiendo    en    bash" | tr <strong class="resaltar">-s [:space:] _</strong>      <em class="comentario"># aprendiendo_en_bash</em>
+</pre>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <p>Vamos a trabajar sobre un archivo llamado <code>deportes.txt</code> con este código:</p>
+
+<pre>
+0- fútbol
+1- atletismo
+2- ciclismo
+3- tenis
+4- básquetbol
+5- hockey
+6- vóleibol
+7- natación
+8- rugby
+9- karate
+</pre>
+
+        <ol>
+            <li>Reemplazar el guion por "<code>)</code>".</li>
+            <li>Reemplazar todas las vocales acentuadas por "<code>?</code>". ¿Qué es lo que ocurre y por qué?</li>
+            <li>Sustituir los números por letras mayúsculas.</li>
+            <li>Convertir todo el texto a mayúsculas.</li>
+            <li>Sustituir las "<code>o</code>" por ceros, las "<code>l</code>" por "<code>1</code>" y las "<code>a</code>" por "<code>4</code>", y guardarlo en un archivo nuevo.</li>
+            <li>Borrar los caracteres "<code>k</code>" e "<code>y</code>".</li>
+            <li>Sustituir todos los caracteres que NO sean "<code>i</code>" por puntos ("<code>.</code>")</li>
+            <li>Reemplazar el rango <code>n-r</code> por "<code>_</code>".</li>
+            <li>Quitar todos los caracteres que NO sean dígitos.</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>uuidgen</h2>
+<section>
+    <p><code>uuidgen</code> es un generador de UUIDs. Un <strong>UUID</strong> (<em>Universal Unique ID</em>) es una cadena de 32 dígitos hexadecimales (dígitos del 0 al 9 y letras  de la "a" a la "f"), dividida por guiones en grupos de 8-4-4-4-12 caracteres. Es un identificador único y prácticamente imposible de duplicar, muy utilizado actualmente.</p>
+
+<pre>
+uuidgen     <em class="comentario"># b299e844-30a9-4533-aecf-88b87b79cc98</em>
+</pre>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Usando el comando <code>tr</code>, generar un UUID con letras en mayúsculas.</li>
+            <li>Usando <code>tr</code> nuevamente, sustituir las letras por los números del 0 al 6.</li>
+            <li>Usar <code>tr</code> para generar un UUID sin guiones.</li>
+        </ol>
+    </section>
+</section>
+
+<hr>
+
+<h2>xargs</h2>
+<section>
+    <p>El nombre <code>xargs</code> proviene de <em>extended arguments</em> (argumentos extendidos) y es una herramienta que permite aplicar un comando a cada elemento de una lista. También necesita estar dentro de un <em>pipe</em> y combinarse con otros comandos. Es muy provechoso agregarle la opción <code>-t</code> para mostrar cuál es el comando que está ejecutando.</p>
+    
+    <p>Algunas aplicaciones prácticas de <code>xargs</code>:</p>
+
+    <ul>
+        <li>Borrar archivos con determinada extensión:
+<pre>
+ls *.pdf | <strong class="resaltar">xargs -t rm</strong>       <em class="comentario"># Elimina los archivos pdf</em>
+</pre>
+        </li>
+        <li>Conceder permisos a archivos:
+<pre>
+ls *.sh | <strong class="resaltar">xargs -t chmod +r</strong>       <em class="comentario"># Permite la lectura de los archivos sh</em>
+</pre>
+        </li>
+        <li>Otra manera de crear archivos:
+<pre>
+echo arch1 arch2 | <strong class="resaltar">xargs -t touch</strong>       <em class="comentario"># Crea dos archivos</em>
+</pre>
+        </li>
+        <li>Encontrar archivos que contengan cierta expresión:
+<pre>
+find -name "*.txt" | <strong class="resaltar">xargs -t grep "Linux"</strong>       <em class="comentario"># Busca todos los archivos de texto que contengan la palabra "Linux"</em>
+</pre>
+        </li>
+        <li>Cambiar la extensión de archivos:
+<pre>
+basename -s .jpg -a *.jpg | <strong class="resaltar">xargs -t -n1 -i mv {}.jpg {}.bmp</strong>       <em class="comentario"># Cambia la extesión de los archivos .jpg a .bmp</em>
+</pre>
+
+        Bueno, esto último es un poco complejo y merece una explicación: en la primera parte, <code>basename -s</code> quita la extensión del archivo y <code>-a</code> selecciona todos los archivos con esa extensión; esto da como resultado todos los archivos pero SIN la extensión. En la segunda parte, <code>-n1</code> indica que el próximo comando se aplicará a cada uno de los archivos; <code>-i</code> indica que se hará un reemplazo de cadena de texto, es decir, que la salida del <em>pipe</em> (cada nombre de archivo) está representado por <code>{}</code>. Y finalmente, con <code>mv</code> se produce el cambio de extensión, manteniendo el nombre original del archivo.
+        </li>
+    </ul>
+
+    <section id="ejercicios">
+        <h3>Ejercicios</h3>
+        <ol>
+            <li>Crear 4 archivos con extensión <code>pdf</code>. (Pista: usar el sufijo <code>{1..4}</code>).</li>
+            <li>Cambiar su extensión a <code>docx</code>.</li>
+            <li>Otorgarles permiso de escritura.</li>
+            <li>Borrar esos archivos.</li>
+        </ol>
+    </section>
+</section>
+
+<footer>
+    <a href="12-funciones.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="14-bibliografia.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

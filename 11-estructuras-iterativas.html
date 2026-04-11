@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>ESTRUCTURAS ITERATIVAS (BUCLES)</h1>
+<p>Antes de comenzar con este tema, debemos tener en cuenta algo muy importante:</p>
+
+<blockquote class="nota">
+    <u>NOTA</u>: Las estructuras iterativas pueden generar bucles infinitos, por lo que deben escribirse con mucho cuidado.
+</blockquote>
+
+<h2>Bucle for y for-in</h2>
+<section>
+    <p>En Bash, también la sintaxis del bucle <code>for</code> es muy similar a la de muchos lenguajes de programación:</p>
+
+<pre>
+<strong class="resaltar">for (( </strong>inicio<strong class="resaltar">;</strong> condición<strong class="resaltar">;</strong> incremento<strong class="resaltar"> )); do</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">done</strong>
+</pre>
+
+    <p>O bien:</p>
+
+<pre>
+<strong class="resaltar">for (( </strong>inicio<strong class="resaltar">;</strong> condición<strong class="resaltar">;</strong> incremento<strong class="resaltar"> ))
+do</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">done</strong>
+</pre>
+
+    <p>Por ejemplo, mostrar los números del 1 al 10:</p>
+
+<pre>
+for (( i=1; i<=10; i++ )); do
+    echo $i
+done
+</pre>
+
+    <p>Una variante de este bucle es el de <code>for-in</code> con el que se pueden recorrer directorios, rangos, arrays, etcétera:</p>
+
+<pre>
+<strong class="resaltar">for</strong> elemento <strong class="resaltar">in</strong> rango<strong class="resaltar">; do</strong>
+    <em class="comentario"># código</em>
+<strong class="resaltar">done</strong>
+</pre>
+
+    <p>Recuerda que los rangos de números se escriben como <code>{5..68}</code> y los de letras como <code>{b..y}</code>. Entonces el ejemplo anterior se podría reescribir así:</p>
+
+<pre>
+for i in <strong class="resaltar">{</strong>1<strong class="resaltar">..</strong>10<strong class="resaltar">}</strong>; do
+    echo $i
+done
+</pre>
+
+    <p>En cuanto a los arrays, la expresión para recorrerlo es con <code>{$</code><em><strong>[array]</strong></em><code>[*]}</code>. He aquí un ejemplo:</p>
+
+<pre>
+arboles=("Araucaria" "Cedro" "Roble" "Eucalipto" "Pino")
+
+for arbol in <strong class="resaltar">${</strong>arboles<strong class="resaltar">[*]}</strong>; do
+    echo $arbol
+done
+</pre>
+
+    <p>Para conocer el contenido de un directorio simplemente se especifica con un asterisco (<code>*</code>) al final de la ruta, para abarcar todos sus archivos y subdirectorios:</p>
+
+<pre>
+for elem in /home/<strong class="resaltar">*</strong>; do
+    echo $elem
+done
+</pre>
+</section>
+
+<h2>Bucle while</h2>
+<section>
+    <p>La estructura del bucle <code>while</code> no es muy diferente a la de otros lenguajes:</p>
+
+<pre>
+valor_inicial
+<strong class="resaltar">while [[</strong> condición <strong class="resaltar">]]; do</strong>
+    <em class="comentario"># código</em>
+    <em class="comentario"># incremento</em>
+<strong class="resaltar">done</strong>
+</pre>
+
+    <p>Es muy importante recordar establecer un valor inicial y un incremento para evitar bucles infinitos. El incremento se puede expresar como <code>((</code><strong>valor_inicial</strong><code>++))</code>.</p>
+
+    <p>Siguiendo el ejemplo anterior, con el bucle <code>while</code> sería así:</p>
+
+<pre>
+i=1
+while [[ $i -le 10 ]]; do
+    echo $i
+    ((i++))
+done
+</pre>
+</section>
+
+<h2>Bucle until</h2>
+<section>
+    <p>Muchos lenguajes de programación cuentan con el bucle <code>do-while</code>, pero esto no existe en Bash. En cambio sí cuenta con una estructura llamada <code>until</code> (<em>hasta que</em>) que, al contrario que la de <code>while</code>, ejecuta el código mientras la condición sea falsa, es decir, hasta que la condición se cumpla. En otras palabras, la condición en <code>until</code> es contraria a la que sería en <code>while</code>.</p>
+
+    <p>La sintaxis es:</p>
+
+<pre>
+valor_inicial
+<strong class="resaltar">until [[</strong> condición <strong class="resaltar">]]; do</strong>
+    <em class="comentario"># código</em>
+    <em class="comentario"># incremento</em>
+<strong class="resaltar">done</strong>
+</pre>
+
+    <p>Aplicándolo al ejemplo que venimos viendo:</p>
+
+<pre>
+i=1
+until [[ $i -gt 10 ]]; do
+    echo $i
+    ((i++))
+done
+</pre>
+
+    <p>Vemos que la condición pasa de ser menor o igual a 10 (<code>-le 10</code>) a ser directamente mayor que 10 (<code>-gt 10</code>).</p>
+</section>
+
+<h2>break y continue</h2>
+<section>
+    <p>Nuevamente, al igual que con otros lenguajes, Bash cuenta las palabras reservadas <code>break</code> que nos permite salir del bucle y <code>continue</code> que nos permite omitir una iteración, bajo ciertas condiciones.</p>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: En la estructura <code>case</code> no se utiliza <code>break</code> al final de cada opción.
+    </blockquote>
+
+    <p>Veamos en el siguiente ejemplo una aplicación de <code>break</code>. En este caso se muestran solamente los números del 1 al 7 porque el bucle se interrumpe al llegar a este valor:</p>
+
+<pre>
+i=1
+while [[ $i -le 10 ]]; do
+    if [[ $i -eq 7 ]]; then
+        <strong class="resaltar">break</strong>
+    fi
+    echo $i
+    ((i++))
+done
+</pre>
+
+    <p>En cuanto a <code>continue</code>, en el siguiente caso se muestran todos los números menos el 4:</p>
+
+<pre>
+i=0
+while [[ $i -le 10 ]]; do
+    ((i++))
+    if [[ $i -eq 4 ]]; then
+        <strong class="resaltar">continue</strong>
+    fi
+    echo $i
+done
+</pre>
+
+    <p>Aquí hay algo muy importante a tener en cuenta: el contador comienza desde <code>0</code> en vez de <code>1</code> y se incrementa <em>antes</em> del <code>if</code>.</p>
+
+    <blockquote class="nota">
+        <u>NOTA</u>: En el caso de <code>continue</code>, las líneas que le siguen serán ignoradas porque el programa saltará directamente al inicio del bucle. Por lo tanto, es recomendable que el incremento ocurra <strong>antes</strong> del condicional para evitar un bucle infinito.
+    </blockquote>
+
+    <p>Además es necesario sustituir <code>-le</code> por <code>-lt</code> para que se imprima hasta el número <code>10</code> (de lo contrario, se haría una iteración más y se incluiría el <code>11</code>).</p>
+
+    <p>Y por supuesto, también se pueden combinar ambos términos en un mismo código:</p>
+
+<pre>
+i=0
+while [[ $i -le 10 ]]; do
+    ((i++))
+    if [[ $i -eq 4 ]]; then
+        continue
+    fi
+    echo $i
+    if [[ $i -eq 7 ]]; then
+        break
+    fi
+done
+</pre>
+
+    <p>Al ejecutarlo se muestran únicamente los números del 1 al 7, salvo el 4.</p>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Usando el bucle <code>for</code> simple, crear un programa que muestre los números enteros comprendidos entre <code>28</code> y <code>51</code> incluidos.</li>
+        <li>Usando esta vez el bucle <code>for-in</code>, crear un array con los nombres <code>analía</code>, <code>bernardo</code>, <code>catalina</code>, <code>david</code>, <code>ester</code>, <code>fabricio</code>, <code>gabriela</code> y <code>héctor</code>, y que los muestre con todas las letras en mayúsculas.</li>
+        <li>Con el bucle <code>while</code>, imprimir todos los números enteros entre <code>105</code> y <code>147</code> que sean pares (Pista: usar el operador de módulo).</li>
+        <li>Con el bucle <code>until</code>, mostrar todos los enteros entre <code>39</code> y <code>16</code> (no incluido) en orden <em>descendente</em>, y que al final imprima la cantidad total de números.</li>
+        <li>Usar el bucle <code>for-in</code>, el condicional <code>case</code> y <code>continue</code> para imprimir el rango entre la <code>A</code> y la <code>Z</code>, excepto las letras <code>D</code>, <code>J</code>, <code>N</code> y <code>W</code>.</li>
+        <li>Usar el bucle <code>for-in</code>, el condicional <code>if</code> y <code>break</code> para imprimir todas las letras de la <code>k</code> a la <code>v</code>, interrumpiendo el bucle en la letra <code>t</code>.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="10-operadores-y-estructuras-condicionales.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="12-funciones.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>

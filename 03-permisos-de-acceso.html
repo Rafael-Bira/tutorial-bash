@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la terminal de Linux</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>PERMISOS DE ACCESO</h1>
+<p>Linux ha sido desde su concepción un sistema operativo con orientación a multiusuario, por lo tanto cuenta con medidas de seguridad para administrar y restringir la manipulación de directorios y archivos a usuarios específicos. Los dos conceptos fundamentales son la <strong>propiedad</strong> (es decir, quién es el creador y/o propietario del archivo o directorio) y los <strong>permisos</strong> que se aplican a quién o quiénes pueden acceder a él.</p>
+
+<p>Existen tres tipos de propietarios:</p>
+
+<ul>
+    <li><strong>Usuario</strong> (<em>user</em>) - Aquél que lo crea o bien a quien se le adjudica la propiedad.</li>
+    <li><strong>Grupo</strong> (<em>group</em>) - Cada usuario pertenece al menos a un grupo, lo cual facilita su administración.</li>
+    <li><strong>Otros</strong> (<em>others</em>) - Todos aquellos que tengan acceso al sistema.</li>
+</ul>
+
+<p>Los permisos también son de tres tipos:</p>
+
+<ul>
+    <li>De <strong>lectura</strong>, identificados con la letra <code>r</code> (<em>read</em>). Si se trata de un directorio, se refiere a poder ver lo que contiene.</li>
+    <li>De <strong>escritura</strong>, identificados con la letra <code>w</code> (<em>write</em>). Si se trata de un directorio, se refiere a poder crear archivos y subdirectorios en él.</li>
+    <li>De <strong>ejecución</strong>, identificados con la letra <code>x</code> (<em>execute</em>). Si se trata de un directorio, se refiere a poder ingresar en él.</li>
+</ul>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Efecto</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>chmod +x</code> arch</td>
+            <td>(<em>change mode +execute</em>) Permite ejecutar el archivo o los archivos en el directorio</td>
+        </tr>
+        <tr>
+            <td><code>chmod +r</code> arch</td>
+            <td>(<em>+read</em>) Permite leer el archivo o directorio</td>
+        </tr>
+        <tr>
+            <td><code>chmod +w</code> arch</td>
+            <td>(<em>+write</em>) Permite escribir el archivo o directorio</td>
+        </tr>
+        <tr>
+            <td><code>chmod -x</code> arch</td>
+            <td>(<em>-execute</em>) Quita el permiso para ejecutar el archivo o los archivos en el directorio</td>
+        </tr>
+        <tr>
+            <td><code>chmod -r</code> arch</td>
+            <td>(<em>-read</em>) Quita el permiso para leer el archivo o directorio</td>
+        </tr>
+        <tr>
+            <td><code>chmod -w</code> arch</td>
+            <td>(<em>-write</em>) Quita el permiso para escribir el archivo o directorio</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>ls -l</h2>
+<section>
+    <p>Cuando se usa el comando <code>ls -l</code>, la terminal imprime una línea de información con estos detalles:</p>
+
+    <table>
+        <tbody>
+            <tr>
+                <td><code>-</code></td>
+                <td><code>rwx</code></td>
+                <td><code>rwx</code></td>
+                <td><code>rwx</code></td>
+                <td><em>[enlaces]</em></td>
+                <td><em>[propietario]</em></td>
+                <td><em>[grupo]</em></td>
+                <td><em>[tamaño]</em></td>
+                <td><em>[fecha]</em></td>
+                <td><em>[nombre]</em></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td colspan="3">2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <ol>
+        <li>El primer caracter indica qué tipo de elemento es el que se está consultando: los más comunes son un guion (<code>-</code>) si es un archivo, <code>d</code> si es un directorio o <code>l</code> (<em>link</em>) si es un enlace simbólico (una especie de acceso directo). En la carpeta <code>/dev</code> del sistema se pueden encontrar también <code>c</code> (<em>character device</em>, dispositivos que envían datos caracter por caracter, como el teclado), <code>b</code> (<em>block device</em>, dispositivos que manejan datos en bloque, como un disco duro o un USB), <code>s</code> (<em>socket</em>, un punto de comunicación entre procesos, muy usado en redes locales) y <code>p</code> (<em>pipe</em>, un canal para enviar datos de un proceso a otro).</li>
+        <li>Las 3 columnas siguientes tienen 3 caracteres. El orden de los permisos siempre es <code>rwx</code> y si alguno de ellos está denegado se indica con un guion (<code>-</code>):
+            <ol style="list-style-type:lower-alpha;">
+                <li>La primera columna especifica cuáles son los permisos que tiene el <strong>usuario</strong>.</li>
+                <li>La segunda, los permisos del <strong>grupo</strong>.</li>
+                <li>La tercera, los permisos de <strong>cualquiera</strong> que tenga acceso al elemento.</li>
+            </ol>
+        </li>
+        <li>Luego sigue la cantidad de enlaces físicos que apuntan a ese archivo o directorio. Generalmente es <code>1</code> para archivos y <code>2</code> o más para directorios.</li>
+        <li>A continuación figura el usuario que creó el archivo o directorio, o bien el que es propietario.</li>
+        <li>El siguiente es el grupo al que pertenece. Esto resulta útil cuando varias personas necesitan acceder a los mismos archivos o directorios.</li>
+        <li>Le sigue el tamaño del archivo en bytes. Los directorios suelen mostrar 4096 bytes, no porque lo que pesan sino por el espacio que ocupa la “lista” o el índice de nombres de ese directorio. Se puede cambiar la manera en que se muestra el tamaño con la opción <code>-h</code> (<em>human readable</em>).</li>
+        <li>Fecha y hora de la última modificación.</li>
+        <li>Nombre del archivo o directorio. Si tiene una flechita (<code>-></code>), significa que es un enlace simbólico.</li>
+    </ol>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear el directorio <code>prueba</code> e ingresar a él.</li>
+        <li>Crear el archivo ejecutable <code>ejemplo.sh</code> cuyo código sea el siguiente:
+
+<pre>
+#! bin/bash
+echo "¡Hola, mundo!"
+</pre>
+
+        </li>
+        <li>Habilitarle el permiso de ejecución.</li>
+        <li>Verificar con <code>ls -l</code> y ejecutarlo.</li>
+        <li>Subir un nivel de directorio y cambiarle el permiso a <code>prueba</code> para que no se pueda leer.</li>
+        <li>Verificar nuevamente con <code>-ls -l</code>.</li>
+    </ol>
+</section>
+
+<hr>
+
+<h2>Usuarios y propietarios</h2>
+<section>
+    <p>Teniendo privilegios de superusuario, podemos gestionar usuarios y grupos y cambiar la propiedad de un archivo o directorio.</p>
+
+    <table>
+        <thead>
+            <th>Comando</th>
+            <th>Efecto</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>sudo useradd</code> usuario</td>
+                <td>Añade un usuario</td>
+            </tr>
+            <tr>
+                <td><code>sudo userdel</code> usuario</td>
+                <td>Borra un usuario</td>
+            </tr>
+            <tr>
+                <td><code>sudo groupadd</code> grupo</td>
+                <td>Añade un grupo</td>
+            </tr>
+            <tr>
+                <td><code>sudo groupdel</code> grupo</td>
+                <td>Borra un grupo</td>
+            </tr>
+            <tr>
+                <td><code>sudo chown</code> usuario arch</td>
+                <td>(<em>change ownership</em>) Asigna la propiedad del archivo o directorio a un usuario</td>
+            </tr>
+            <tr>
+                <td><code>sudo chgrp</code> grupo arch</td>
+                <td>(<em>change group</em>) Asigna la propiedad del archivo o directorio a un grupo</td>
+            </tr>
+            <tr>
+                <td><code>compgen -u</code></td>
+                <td>(<em>-users</em>) Muestra un listado de todos los usuarios disponibles</td>
+            </tr>
+            <tr>
+                <td><code>compgen -g</code></td>
+                <td>(<em>-groups</em>) Muestra un listado de todos los grupos disponibles</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Comando chmod</h3>
+    <section>
+        <p>Con el comando <code>chmod</code> también se pueden cambiar los permisos de acceso para un <strong>usuario</strong>, un <strong>grupo</strong> u <strong>otro</strong> (todo aquel que tenga acceso al elemento). La sintaxis es:</p>
+
+<pre>
+chmod <strong class="resaltar">ugo</strong> <em>[arch]</em>
+</pre>
+
+        <p>donde <code>u</code>, <code>g</code> y <code>o</code> son dígitos en sistema octal que representan distintas combinaciones de permisos:</p>
+
+        <table>
+            <thead>
+                <th>Octal</th>
+                <th>Binario</th>
+                <th>Permisos</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>0</code></td>
+                    <td><code>000</code></td>
+                    <td>Ninguno</td>
+                </tr>
+                <tr>
+                    <td><code>1</code></td>
+                    <td><code>001</code></td>
+                    <td><code>--x</code> (sólo ejecución)</td>
+                </tr>
+                <tr>
+                    <td><code>2</code></td>
+                    <td><code>010</code></td>
+                    <td><code>-w-</code> (sólo escritura)</td>
+                </tr>
+                <tr>
+                    <td><code>3</code></td>
+                    <td><code>011</code></td>
+                    <td><code>-wx</code> (escritura y ejecución)</td>
+                </tr>
+                <tr>
+                    <td><code>4</code></td>
+                    <td><code>100</code></td>
+                    <td><code>r--</code> (sólo lectura)</td>
+                </tr>
+                <tr>
+                    <td><code>5</code></td>
+                    <td><code>101</code></td>
+                    <td><code>r-x</code> (lectura y ejecución)</td>
+                </tr>
+                <tr>
+                    <td><code>6</code></td>
+                    <td><code>110</code></td>
+                    <td><code>rw-</code> (lectura y escritura)</td>
+                </tr>
+                <tr>
+                    <td><code>7</code></td>
+                    <td><code>111</code></td>
+                    <td><code>rwx</code> (todos: lectura, escritura y ejecución)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Por ejemplo, el comando <code>chmod 205</code> indica que se otorga permiso sólo de escritura (<code>2</code>) al usuario, ninguno (<code>0</code>) al grupo y de lectura y ejecución (<code>5</code>) a cualquiera. Los códigos más usados son <code>755</code> (todos los permisos al usuario, sólo lectura y ejecución al grupo y a otros) y <code>750</code> (todos los permisos al usuario, lectura y ejecución al grupo y ningún permiso a otros).</p>
+
+        <p>Otra manera de administrar permisos es con los ya mencionados <code>r</code>, <code>w</code> y <code>x</code> más las siguientes letras y signos algebraicos:</p>
+
+        <table>
+            <thead>
+                <th>Caracter</th>
+                <th>Permisos</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>u</code></td>
+                    <td>(<em>user</em>) Usuario</td>
+                </tr>
+                <tr>
+                    <td><code>g</code></td>
+                    <td>(<em>group</em>) Grupo</td>
+                </tr>
+                <tr>
+                    <td><code>o</code></td>
+                    <td>(<em>other</em>) Otros</td>
+                </tr>
+                <tr>
+                    <td><code>a</code></td>
+                    <td>(<em>all</em>) Todos</td>
+                </tr>
+                <tr>
+                    <td><code>+</code></td>
+                    <td>Otorgar permiso</td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td>Quitar permiso</td>
+                </tr>
+                <tr>
+                    <td><code>=</code></td>
+                    <td>Borra todos los permisos y establece sólo los que se indican</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>En este caso, un comando podría ser:</p>
+
+<pre>
+chmod <strong class="resaltar">g+rx</strong> <em>[archivo]</em>
+</pre>
+
+        <p>donde se le brindaría (<code>+</code>) acceso de lectura (<code>r</code>) y ejecución (<code>x</code>) al grupo (<code>g</code>). También se pueden otorgar o quitar permisos a más de uno simultáneamente, por ejemplo al grupo y a otros:</p>
+
+<pre>
+chmod <strong class="resaltar">go-w</strong>
+</pre>
+
+        <p>En este otro ejemplo, sobreescribimos los permisos para que el usuario tenga únicamente acceso de escritura y ejecución, y (separando con una coma) que todos puedan tener acceso de lectura:</p>
+
+<pre>
+chmod <strong class="resaltar">u=wx,a=r</strong>
+</pre>
+
+        <p>Cada archivo o directorio puede ser accedido a la vez por un usuario individual o bien por un grupo y los derechos de propiedad también se pueden asignar a un usuario o a un grupo. La autoría se puede asignar a cierto usuario o a cierto grupo:</p>
+
+<pre>
+<strong class="resaltar">chown</strong> <em>[usuario] [archivo]</em>
+<strong class="resaltar">chgrp</strong> <em>[grupo] [archivo]</em>
+</pre> 
+
+        <p>Por ejemplo, si se tiene un archivo de texto <code>note.txt</code> y le queremos asignar el derecho de propiedad al usuario Juan, se debe escribir:</p>
+
+<pre>
+chown Juan note.txt
+</pre>
+
+        <p>Y para el grupo "Editores":</p>
+
+<pre>
+chgrp Editores note.txt
+</pre>        
+
+        <p>También se puede asignar la propiedad a un usuario y a un grupo a la vez separándolos con dos puntos (<code>:</code>), con la sintaxis:</p>
+
+<pre>
+chown <em>[usuario]</em><strong class="resaltar">:</strong><em>[grupo] [archivo]</em>
+</pre>
+    </section>
+
+    <h3>Comando who</h3>
+    <section>
+        <p>El comando <code>who</code> muestra detalles sobre los usuarios que están activos en este momento.</p>
+
+        <table>
+            <thead>
+                <th>Comando</th>
+                <th>Efecto</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>who -a</code></td>
+                    <td>(<em>-all</em>) Muestra toda la información sobre los usuarios conectados, incluyendo información como la fecha de inicio del sistema, entre otros</td>
+                </tr>
+                <tr>
+                    <td><code>who -b</code></td>
+                    <td>Muestra únicamente la fecha de inicio del sistema</td>
+                </tr>
+                <tr>
+                    <td><code>who -H</code></td>
+                    <td>(<em>-Human</em>) Muestra los encabezados de cada columna</td>
+                </tr>
+                <tr>
+                    <td><code>who -u</code></td>
+                    <td>(<em>-users</em>) Muestra el tiempo de inactividad de los usuarios actuales</td>
+                </tr>
+                <tr>
+                    <td><code>who -q</code></td>
+                    <td>Muestra la cantidad y los nombres de los usuarios conectados</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Esta información se compone de cuatro columnas:</p>
+
+<pre>
+<em>[usuario]</em>:<em>[conexión]</em>:<em>[tiempo]</em>:<em>[ubicación]</em>
+</pre>
+
+        <ol>
+            <li>La primera indica quiénes están conectados ahora.</li>
+            <li>La segunda nos indica de qué tipo de conexión se trata: si es <code>tty</code> (<em>teletypewriter</em>), se trata de una consola local; si es <code>pts</code>, es una consola que se ha conectado remotamente.</li>
+            <li>La tercera nos muestra la fecha y hora desde que ha iniciado la conexión.</li>
+            <li>La cuarta nos dice la ubicación desde dónde se ha conectado: si es remota, se muestra la dirección IP, y si es local se muestra como <code>(:0)</code>.</li>
+        </ol>
+
+        <p>Otros comandos útiles para ver más información:</p>
+
+        <table>
+            <thead>
+                <th>Comando</th>
+                <th>Efecto</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>users</code></td>
+                    <td>Muestra un listado simple de los usuarios conectados</td>
+                </tr>
+                <tr>
+                    <td><code>whoami</code></td>
+                    <td>(<em>who am I</em>) Muestra el usuario actual</td>
+                </tr>
+                <tr>
+                    <td><code>w</code></td>
+                    <td>(w minúscula) Muestra información sobre los usuarios que están conectados actualmente</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</section>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Crear un archivo llamado <code>ejemplo.sh</code> y, utilizando dígitos, otorgar permiso de escritura y ejecución al usuario, de ejecución al grupo y de sólo lectura a cualquier otro. Verificar el resultado con <code>ls -l</code>.</li>
+        <li>Borrar todos los permisos y, esta vez usando caracteres, otorgarle de sólo lectura al usuario, de escritura y ejecución al grupo y todos a cualquier otro. Verificar en cada paso.</li>
+        <li>Agregar un usuario y un grupo con nombres cualesquiera y asignarles la propiedad del archivo.</li>
+        <li>Mostrar la lista de todos los usuarios disponibles.</li>
+        <li>Borrar dicho usuario y grupo.</li>
+    </ol>
+</section>
+
+<footer>
+    <a href="02-archivos-y-directorios.html"><< Anterior</a>
+    <a href="00-intro.html#indice">Índice</a>
+    <a href="04-procesos.html" rel="next">Siguiente >></a>
+</footer>
+
+</body>
+</html>
