@@ -44,7 +44,7 @@
             <td>(<em>-clear</em>) Borra el listado de comandos utilizados</td>
         </tr>
         <tr>
-            <td><code>whatis</code> com</td>
+            <td><code>whatis</code> comando</td>
             <td>(<em>what is</em>) Muestra una descripción del comando</td>
         </tr>
         <tr>
@@ -52,40 +52,40 @@
             <td>(<em>where is?</em>) Busca la ubicación de un archivo ejecutable. Si están disponibles, retorna también su fuente y manual</td>
         </tr>
         <tr>
-            <td><code>compgen -c</code> com</td>
-            <td>(<em>-commands</em>) Muestra un listado de todos los comandos que comiencen con <em>com</em></td>
+            <td><code>compgen -c</code> comando</td>
+            <td>(<em>-commands</em>) Muestra un listado de todos los comandos que comiencen con <em>comando</em></td>
         </tr>
         <tr>
             <td><code>whoami</code></td>
             <td>(<em>who am I</em>) Muestra el usuario actual</td>
         </tr>
         <tr>
-            <td>com <code>--help</code></td>
+            <td>comando<code> --help</code></td>
             <td>Obtener ayuda sobre un comando</td>
         </tr>
         <tr>
-            <td><code>man</code> com</td>
+            <td><code>man</code> comando</td>
             <td>(<em>manual</em>) Muestra un manual sobre determinado comando del sistema. Se sale con la tecla <strong>Q</strong> (<em>quit</em>)</td>
         </tr>
         <tr>
-            <td><code>man -k</code> pal</td>
+            <td><code>man -k</code> palabra</td>
             <td>(<em>-keyword</em>) Busca determinada palabra en el manual del sistema. Si aparece más de una vez, se avanza con la tecla <strong>N</strong> (<em>next</em>). También se puede buscar una palabra dentro del manual con <code>/</code> <em>palabra</em></td>
         </tr>
         <tr>
-            <td>com1 <code>;</code> com2</td>
-            <td>Ejecuta el <em>com1</em> y luego el <em>com2</em></td>
+            <td>comando1 <code>;</code> comando2</td>
+            <td>Ejecuta el <em>comando1</em> y luego el <em>comando2</em></td>
         </tr>
         <tr>
-            <td>com1 <code>&&</code> com2</td>
-            <td>Ejecuta el <em>com2</em> cuando el <em>com1</em> finaliza exitosamente</td>
+            <td>comando1 <code>&&</code> comando2</td>
+            <td>Ejecuta el <em>comando2</em> cuando el <em>comando1</em> finaliza exitosamente</td>
         </tr>
         <tr>
-            <td>com1 <code>||</code> com2</td>
-            <td>Ejecuta el <em>com2</em> sólo si el <em>com1</em> falla</td>
+            <td>comando1 <code>||</code> comando2</td>
+            <td>Ejecuta el <em>comando2</em> sólo si el <em>comando1</em> falla</td>
         </tr>
         <tr>
-            <td>com1 <code>|</code> com2</td>
-            <td>Ejecuta el <em>com1</em> y envía la salida como entrada del <em>com2</em></td>
+            <td>comando1 <code>|</code> comando2</td>
+            <td>Ejecuta el <em>comando1</em> y envía la salida como entrada del <em>comando2</em></td>
         </tr>
         <tr>
             <td><code>$_</code></td>
@@ -94,10 +94,10 @@
         <tr>
             <td><code>!!</code></td>
             <td>Repite el último comando.<br>
-            ATENCIÓN: Cuidado al escribir <code>!</code> en una cadena de texto, ya que puede generar un error. Conviene usar el código de escape <code>\!</code> en ese caso</td>
+            <span class="atencion">ATENCIÓN</span>: Cuidado al escribir <code>!</code> en una cadena de texto, ya que puede generar un error. Conviene usar el código de escape <code>\!</code> en ese caso</td>
         </tr>
         <tr>
-            <td><code>alias</code> nom<code>="</code> com<code>"</code></td>
+            <td><code>alias</code> nombre<code>="</code>comando<code>"</code></td>
             <td>Permite definir alias temporales en la sesión. Al crear un alias, se le indica a la terminal que sustituya una palabra por un comando. Por ejemplo: <code>alias</code> <em>manual</em><code>="</code><em>man whoami</em><code>"</code></td>
         </tr>
         <tr>
@@ -105,7 +105,7 @@
             <td>(<em>-alias</em>) Muestra un listado de todos los alias</td>
         </tr>
         <tr>
-            <td><code>unalias</code> nom</td>
+            <td><code>unalias</code> nombre</td>
             <td>Elimina el alias definido</td>
         </tr>
         <tr>
@@ -121,7 +121,7 @@
             <td>(<em>-variables</em>) Muestra un listado de todas las variables de entorno</td>
         </tr>
         <tr>
-            <td><code>su</code></td>
+            <td><code>su</code> usuario</td>
             <td>(<em>superuser</em>) Permite cambiar de usuario</td>
         </tr>
         <tr>
@@ -189,7 +189,7 @@
             <td>(<em>-reverse</em>) Invierte el orden del listado</td>
         </tr>
         <tr>
-            <td><code>ls *.</code>ext</td>
+            <td><code>ls *.</code>extensión</td>
             <td>Muestra únicamente aquellos archivos con una determinada extensión <a href="#3" class="nota-al-pie"><sup>[3]</sup></a></td>
         </tr>
         <tr>
@@ -213,7 +213,7 @@
             <td>Sube un nivel en los directorios. <code>../..</code> sube dos niveles, <code>../../..</code> sube tres y así sucesivamente</td>
         </tr>
         <tr>
-            <td><code>cd ../</code>dir</td>
+            <td><code>cd ../</code>directorio</td>
             <td>Sube un nivel y enseguida ingresa a otro subdirectorio</td>
         </tr>
         <tr>
@@ -221,29 +221,33 @@
             <td>Muestra en pantalla el directorio anterior y regresa a él</td>
         </tr>
         <tr>
-            <td><code>./</code>arch<br>
-            <code>bash</code> arch</td>
+            <td><code>./</code>archivo<br>
+            <code>bash</code> archivo</td>
             <td>Ejecuta un archivo</td>
         </tr>
         <tr>
-            <td><code>locate</code> arch</td>
+            <td><code>locate</code> archivo</td>
             <td>Busca un archivo según su nombre</td>
         </tr>
         <tr>
-            <td><code>file</code> arch</td>
-            <td>Muestra una descripción breve del tipo de archivo
-            </td>
-        </tr>
-        <tr>
-            <td><code>find</code> ruta <code>-name</code> nom <code>-type</code> tipo</td>
+            <td><code>find</code> ruta <code>-name</code> nombre <code>-type</code> tipo</td>
             <td>Busca un archivo o directorio con cierto nombre dentro de un directorio dado. La opción <code>-type</code> especifica el tipo: <code>d</code> para directorios, <code>f</code> para archivos</td>
         </tr>
         <tr>
-            <td><code>grep</code> expr arch</td>
+            <td><code>file</code> archivo</td>
+            <td>Muestra una descripción breve del archivo</td>
+            </td>
+        </tr>
+        <tr>
+            <td><code>stat</code> archivo</td>
+            <td>Muestra información detallada sobre un archivo, como su nombre, su tamaño, su fecha de creación, etc.</td>
+        </tr>
+        <tr>
+            <td><code>grep</code> expresión archivo</td>
             <td>Busca una expresión determinada en cierto archivo</td>
         </tr>
         <tr>
-            <td><code>grep -i</code> expr arch</td>
+            <td><code>grep -i</code> expresión archivo</td>
             <td>(<em>-ignore-case</em>) Busca una expresión determinada en cierto archivo ignorando mayúsculas o minúsculas</td>
         </tr>
         <tr>
@@ -344,7 +348,7 @@ Opción C
 <section>
     <p>Como el nombre lo indica, estos operadores permiten encadenar varios comandos en una misma línea.</p>
 
-    <h3>com1 ; com2</h3>
+    <h3>comando1 ; comando2</h3>
     <p>Con el operador <code>;</code> se ejecuta un comando a continuación del otro. Por ejemplo:</p>
 
 <pre>
@@ -353,7 +357,7 @@ whoami <strong class="resaltar">;</strong> date
 <em class="comentario"># lun 30 mar 2026 15:03:48 -03</em>
 </pre>
 
-    <h3>com1 && com2</h3>
+    <h3>comando1 && comando2</h3>
     <p>El operador <code>&&</code> indica que un comando se ejecutará a continuación de otro solamente si el primero es exitoso.</p>
 
 <pre>
@@ -361,7 +365,7 @@ ls *.png <strong class="resaltar">&&</strong> pwd
 <em class="comentario"># Si en la carpeta actual hay archivos con extensión PNG, se mostrará el listado y a continuación la ruta. Pero si no hay ninguno, marcará un error.</em>
 </pre>
 
-    <h3>com1 || com2</h3>
+    <h3>comando1 || comando2</h3>
     <p>La barra vertical doble (<code>||</code>) indica que el segundo comando se ejecutará únicamente cuando el primero falle. Retomando el ejemplo anterior:</p>
 
 <pre>
@@ -369,7 +373,7 @@ ls *.png <strong class="resaltar">||</strong> pwd       <em class="comentario">#
 <em class="comentario"># Primero marcará el error del primer comando y luego se mostrará la ruta del directorio actual.</em>
 </pre>
 
-    <h3>com1 | com2</h3>
+    <h3>comando1 | comando2</h3>
     <p>La barra vertical simple (<code>|</code>) es un operador que probablemente vayas a utilizar muy a menudo. Se ejecuta el primer comando y la salida se envía como entrada del segundo. A este encadenamiento se le conoce como <em>pipe</em> (tubería).</p>
 
 <pre>

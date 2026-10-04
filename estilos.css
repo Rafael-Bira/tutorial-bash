@@ -9,7 +9,7 @@ th, .note, summary, figcaption, caption {
     font-style: italic;
 }
 
-code, u {
+code {
     font-weight: bold;
 }
 
@@ -57,6 +57,11 @@ code {
     font-size: 1.0rem; 
 }
 
+span.atencion, .resaltar {
+    color: #ca9e26;
+    font-weight: bold;
+}
+
 .comentario {
     color: rgb(18, 170, 64);
 }
@@ -69,8 +74,8 @@ code {
     text-decoration: none;
 }
 
-.nota-al-pie, .resaltar {
-    color: #ca9e24;
+.nota-al-pie {
+    color: #081f50;
 }
 
 #ejercicios {
