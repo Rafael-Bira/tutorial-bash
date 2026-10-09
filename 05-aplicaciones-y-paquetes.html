@@ -14,53 +14,45 @@
 <table>
     <thead>
         <th>Comando</th>
-        <th>Efecto</th>
+        <th>Descripción</th>
     </thead>
     <tbody>
         <tr>
-            <td><code>apt install</code> paq<br>
-            <code>apt-get</code> paq</td>
+            <td><code>apt install</code> aplicación<br>
+            <code>apt-get</code> aplicación</td>
             <td>Instala una aplicación. <a href="#1" class="nota-al-pie"><sup>[1]</sup></a></td>
         </tr>
         <tr>
-            <td><code>apt search</code> paq</td>
-            <td>Busca un paquete por su nombre</td>
-        </tr>
-        <tr>
-            <td><code>apt install</code> ruta/paq<code>.deb</code></td>
+            <td><code>apt install</code> ruta/aplicación<code>.deb</code></td>
             <td>Instala un paquete <code>.deb</code> ya descargado</td>
         </tr>
         <tr>
-            <td><code>apt remove</code> paq</td>
-            <td>Elimina los paquetes de una aplicación</td>
+            <td><code>apt search</code> aplicación</td>
+            <td>Busca una aplicación por su nombre</td>
         </tr>
         <tr>
-            <td><code>apt purge</code> paq</td>
-            <td>Elimina todos los paquetes, configuraciones y archivos de una aplicación</td>
+            <td><code>apt show</code> aplicación</td>
+            <td>Muestra información detallada sobre una aplicación</td>
         </tr>
         <tr>
-            <td><code>apt update</code> paq</td>
-            <td>Actualiza un paquete o aplicación</td>
+            <td><code>apt remove</code> aplicación</td>
+            <td>Desinstala una aplicación, dejando su configuración</td>
         </tr>
         <tr>
-            <td><code>apt-cache search</code> paq</td>
-            <td>Busca un paquete y brinda una descripción breve</td>
-        </tr>
-        <tr>
-            <td><code>apt-cache show</code> paq</td>
-            <td>Muestra el contenido de un paquete</td>
-        </tr>
-        <tr>
-            <td><code>apt clean</code></td>
-            <td>Remueve paquetes incompletos</td>
-        </tr>
-        <tr>
-            <td><code>apt autoclean</code></td>
-            <td>Libera espacio en el disco vaciando el caché</td>
+            <td><code>apt purge</code> aplicación</td>
+            <td>Desinstala una aplicación, sus configuraciones y archivos</td>
         </tr>
         <tr>
             <td><code>apt autoremove</code></td>
             <td>Remueve paquetes que ya no sean necesarios</td>
+        </tr>
+        <tr>
+            <td><code>apt update</code> aplicación</td>
+            <td>Actualiza una aplicación</td>
+        </tr>
+        <tr>
+            <td><code>apt upgrade</code></td>
+            <td>Actualiza todas las actualizaciones disponibles</td>
         </tr>
     </tbody>
 </table>

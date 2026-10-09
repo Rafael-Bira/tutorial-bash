@@ -14,7 +14,7 @@
 <table>
     <thead>
         <th>Comando</th>
-        <th>Efecto</th>
+        <th>Descripción</th>
     </thead>
     <tbody>
         <tr>
@@ -22,9 +22,7 @@
             <td>Cierra la consola</td>
         </tr>
         <tr>
-            <td><code>clear</code><br>
-                Ctrl + L
-            </td>
+            <td><code>clear</code></td>
             <td>Limpia la pantalla de la consola</td>
         </tr>
         <tr>
@@ -48,7 +46,7 @@
             <td>(<em>what is</em>) Muestra una descripción del comando</td>
         </tr>
         <tr>
-            <td><code>whereis</code></td>
+            <td><code>whereis</code> programa</td>
             <td>(<em>where is?</em>) Busca la ubicación de un archivo ejecutable. Si están disponibles, retorna también su fuente y manual</td>
         </tr>
         <tr>
@@ -399,6 +397,81 @@ date +%H:%M     <em class="comentario"># 16:02</em>
 whatis pwd
 man <strong class="resaltar">$_</strong>    <em class="comentario"># Muestra el manual de pwd</em>
 </pre>
+</section>
+
+<h2>Atajos de teclado</h2>
+<section>
+    <p>En Bash hay un conjunto de atajos de teclado que son muy útiles:</p>
+
+    <table>
+        <thead>
+            <th>Atajo</th>
+            <th>Descripción</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Tab</code></td>
+                <td>Autocompleta nombres de archivos y comandos</td>
+            </tr>
+            <tr>
+                <td><code>Flecha arriba / abajo</code></td>
+                <td>Navega por el historial de comandos</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Shift + C</code></td>
+                <td>Copia el texto seleccionado (equivalente a copiar con <code>Ctrl + C</code>)</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Shift + V</code></td>
+                <td>Pega el texto copiado (equivalente a pegar con <code>Ctrl + V</code>)</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + L</code></td>
+                <td>Limpia la pantalla de la terminal</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + C</code></td>
+                <td>Cancela el comando que se está ejecutando</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Z</code></td>
+                <td>Detiene el comando que se está ejecutando, dejándolo en segundo plano. Se retoma con <code>fg</code></td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + A</code></td>
+                <td>Desplaza el cursor al principio de la línea</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + E</code></td>
+                <td>Desplaza el cursor al final de la línea</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + U</code></td>
+                <td>Elimina todo el contenido de la línea</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + K</code></td>
+                <td>Elimina todo el contenido desde el cursor hasta el final de la línea</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + R</code></td>
+                <td>Busca comandos en el historial a medida que se va escribiendo</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + W</code></td>
+                <td>Elimina la palabra inmediatamente anterior al cursor</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + X</code></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><code>Alt + .</code></td>
+                <td>Inserta el último argumento del comando anterior.
+                    <br>Por ejemplo, si primero se escribe <code>whereis bash</code> y luego se escribe <code>Alt + .</code>, se insertará <code>bash</code>.</td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 <section id="ejercicios">

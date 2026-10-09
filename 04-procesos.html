@@ -9,19 +9,69 @@
 <body>
 
 <h1>PROCESOS</h1>
-<p>¿A qué se le llama "proceso" en Linux? Un proceso es sencillamente una instancia de un programa que se está ejecutando. Al igual que otros sistemas operativos, Linux es multitarea: esto quiere decir que puede ejecutar varios procesos simultáneamente. Y más aún, al tener un enfoque multiusuario, distintos usuarios podrían estar ejecutando varias instancias de una misma aplicación. Debido a esto, Linux resulta ser muy práctico para que un superusuario pueda decidir y administrar qué procesos se pueden ejecutar y cuáles no. Cada proceso cuenta con un identificador único llamado <strong>PID</strong> (<em>process ID</em>), con el cual se puede finalizar ("matar") mediante el comando <code>kill</code>:</p>
+<p>¿A qué se le llama "proceso" en Linux? Un proceso es sencillamente una instancia de un programa que se está ejecutando. Al igual que otros sistemas operativos, Linux es multitarea: esto quiere decir que puede ejecutar varios procesos simultáneamente. Y más aún, al tener un enfoque multiusuario, distintos usuarios podrían estar ejecutando varias instancias de una misma aplicación. Debido a esto, Linux resulta ser muy práctico para que un superusuario pueda decidir y administrar qué procesos se pueden ejecutar y cuáles no. Cada proceso cuenta con un identificador único llamado <strong>PID</strong> (<em>process ID</em>), el cual podemos consultar con <code>ps</code> (<em>process</em>). Este comando es muy útil porque muestra una lista de los procesos que se están ejecutando con su respectivo PID.</p>
 
 <pre>
-<strong class="resaltar">kill</strong> <em>[PID]</em>
+<strong class="resaltar">ps</strong>
 </pre>
 
-<p>Podemos además ejecutar comandos en segundo plano con el operador <code>&</code>, que al mismo tiempo le asigna un PID y permite retomar el control sobre la terminal:</p>
+<p>Suele utilizarse con las opciones <code>aux</code> y muestra una instantánea estática de los procesos que se están ejecutando. Resulta práctico para generar scripts, filtrando procesos u obteniendo el PID de alguno en particular. Por ejemplo:</p>
 
 <pre>
-firefox <strong class="resaltar">&</strong>
+<strong class="resaltar">ps aux</strong> | grep "bash"
 </pre>
 
-<p>Existen varios programas para gestionar los procesos, pero aquí veremos solamente dos: <code>top</code> y <code>ps</code>:</p>
+<p><code>aux</code> en realidad son 3 opciones distintas y se pueden escribir incluso sin el guion (el comando las reconoce igualmente):</p>
+
+<ul>
+    <li><code>a</code> - Muestra detalles de los procesos asociados a la terminal</li>
+    <li><code>u</code> - Muestra detalles de los procesos de cada usuario</li>
+    <li><code>x</code> - Muestra detalles incluso de aquellos procesos que no están asociados a la terminal</li>
+</ul>
+
+<table>
+    <thead>
+        <th>Comando</th>
+        <th>Descripción</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>pgrep</code> proceso<br>
+            <code>pidof</code> proceso</td>
+            <td>Obtiene el PID de un proceso por su nombre</td>
+        </tr>
+        <tr>
+            <td><code>kill</code> pid</td>
+            <td>Cierra un proceso según su PID</td>
+        </tr>
+        <tr>
+            <td><code>pkill -f</code> proceso</td>
+            <td>Cierra un proceso según su nombre</td>
+        </tr>
+        <tr>
+            <td><code>killall</code> proceso</td>
+            <td>Cierra todos los procesos con el mismo nombre</td>
+        </tr>
+        <tr>
+            <td>proceso <code>&</code></td>
+            <td>Ejecuta un proceso en segundo plano</td>
+        </tr>
+        <tr>
+            <td><code>jobs</code></td>
+            <td>Muestra los procesos en segundo plano</td>
+        </tr>
+    </tbody>
+</table>
+
+<section id="ejercicios">
+    <h3>Ejercicios</h3>
+    <ol>
+        <li>Abrir el <em>Editor de Texto</em> en segundo plano desde la terminal con <code>xed</code>.</li>
+        <li>Verificar que el proceso se está ejecutando en segundo plano con el comando <code>jobs</code>.</li>
+        <li>Obtener el PID del proceso con el comando.</li>
+        <li>Finalizar el proceso con el comando <code>kill</code> y verificar que efectivamente se cerró.</li>
+    </ol>
+</section>
 
 <h2>top</h2>
 <section>
@@ -51,7 +101,7 @@ firefox <strong class="resaltar">&</strong>
     <table>
         <thead>
             <th>Tecla</th>
-            <th>Efecto</th>
+            <th>Descripción</th>
         </thead>
         <tbody>
             <tr>
@@ -90,7 +140,7 @@ firefox <strong class="resaltar">&</strong>
     <table>
         <thead>
             <th>Comando</th>
-            <th>Efecto</th>
+            <th>Descripción</th>
         </thead>
         <tbody>
             <tr>
@@ -117,27 +167,10 @@ firefox <strong class="resaltar">&</strong>
     </table>
 </section>
 
-<h2>ps</h2>
-<section>
-    <p>El comando <code>ps</code> (<em>process</em>) suele utilizarse casi siempre junto con la opción <code>aux</code> y, a diferencia de <code>top</code>, muestra una instantánea estática de los procesos que se están ejecutando. La interfaz no es muy distinta, pero la ventaja de <code>ps aux</code> es que resulta más práctico para generar scripts, filtrando procesos u obteniendo el PID de alguno en particular. Por ejemplo:</p>
-
-<pre>
-<strong class="resaltar">ps aux</strong> | grep "bash"
-</pre>
-
-    <p><code>aux</code> en realidad son 3 opciones distintas y se pueden escribir incluso sin el guion (el comando las reconoce igualmente):</p>
-
-    <ul>
-        <li><code>a</code> - Muestra detalles de los procesos asociados a la terminal</li>
-        <li><code>u</code> - Muestra detalles de los procesos de cada usuario</li>
-        <li><code>x</code> - Muestra detalles incluso de aquellos procesos que no están asociados a la terminal</li>
-    </ul>
-</section>
-
 <section id="ejercicios">
     <h3>Ejercicios</h3>
     <ol>
-        <li>Abrir el Editor de Texto en segundo plano desde la terminal con <code>xed</code>.</li>
+        <li>Abrir el <em>Editor de Texto</em> en segundo plano desde la terminal con <code>xed</code>.</li>
         <li>Abrir una nueva consola con <code>Ctrl+Alt+T</code> y ejecutar <code>top</code>. Confirmar que el programa se está ejecutando. Si no aparece en el listado, escribir algo en el programa.</li>
         <li>Salir de <code>top</code> y ejecutar el comando <code>ps aux | grep xed</code>.</li>
         <li>Repetir el comando anterior y agregarle <code>> proceso-xed.txt</code> para guardar la información en un archivo de texto.</li>
